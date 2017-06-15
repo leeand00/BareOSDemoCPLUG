@@ -55,6 +55,8 @@ Vagrant.configure(2) do |config|
   config.hostmanager.manage_guest = true
   #config.hostmanager.manage_host = true
 
+  # How you set static IPs in virtualbox: 
+  # https://stackoverflow.com/questions/44556931/vagrant-hostmanager-1-8-6-error-when-updating-guest-hosts
   config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
       if vm.id
          `VBoxManage guestproperty get #{vm.id} "/VirtualBox/GuestInfo/Net/2/V4/IP"`.split()[1]
