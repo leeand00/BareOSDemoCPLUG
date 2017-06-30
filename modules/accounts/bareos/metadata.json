@@ -1,0 +1,122 @@
+{
+  "name": "netmanagers-bareos",
+  "version": "1.0.0",
+  "source": "https://github.com/netmanagers/puppet-bareos",
+  "author": "Javier Bertoli",
+  "license": "Apache2",
+  "summary": "Puppet module for bareos",
+  "description": "This module installs and manages bareos. Check README for details.",
+  "project_page": "http://www.netmanagers.com.ar",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian"
+    },
+    {
+      "operatingsystem": "RedHat"
+    },
+    {
+      "operatingsystem": "CentOS"
+    },
+    {
+      "operatingsystem": "Ubuntu"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 2.2.0"
+    },
+    {
+      "name": "example42/puppi",
+      "version_requirement": ">=2.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 2.2.0"
+    },
+    {
+      "name": "example42/puppi",
+      "version_requirement": ">=2.0.0"
+    },
+    {
+      "name": "example42/firewall",
+      "version_requirement": ">=2.0.0"
+    },
+    {
+      "name": "example42/monitor",
+      "version_requirement": ">=2.0.0"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "Gemfile": "20e4bc44a1f885e397e71415971c6b30",
+    "Modulefile": "814b007ed2b416c58c9ef3294dd068af",
+    "README.md": "8e41928dc7572a874f0aba4d34ebf552",
+    "Rakefile": "a98b55f4dff239db6e4ab16bbe795a0b",
+    "docs/00-PARAMETERS.general_and_defaults.md": "f3ac7c2945828a900bd60f10aec234b7",
+    "docs/01-PARAMETERS.director.md": "ed2991f025bd9c0fbefd24327ab56f20",
+    "docs/02-PARAMETERS.storage.md": "c6092e05258b79d9d68bfb28261980be",
+    "docs/03-PARAMETERS.client.md": "4a8060a99306fa900f91a167d0baa3d0",
+    "docs/04-PARAMETERS.database.md": "2c6cb3d18ec07470ec4e98278d2260ee",
+    "docs/05-PARAMETERS.console_and_monitor.md": "a52a01758428fb678db2a5180d6ffa94",
+    "docs/06-PARAMETERS.example42.md": "7e0cf695ae757c44501a45674a1a123e",
+    "manifests/client.pp": "ee1530be1c50c7ee9cb38a1880374850",
+    "manifests/console.pp": "4a3cc91974c392ef4901a5fa27189729",
+    "manifests/database.pp": "9d751e65913538e7dfacb4102e8eb5d4",
+    "manifests/director/catalog.pp": "ab7c05d5d3728a50a358be3893a5b7d3",
+    "manifests/director/client.pp": "4a688f5cf1dfecd31faa26c10b9880b9",
+    "manifests/director/fileset.pp": "75832c969b530e06714323733b985e49",
+    "manifests/director/job.pp": "5d69b9b0afbc87a79105a6693b1f8653",
+    "manifests/director/messages.pp": "d646a494889083bb696f541288b26d3c",
+    "manifests/director/pool.pp": "542fc8416e551ebdc613198147e268c2",
+    "manifests/director/schedule.pp": "98b2e555439e43558872284d4ac104e3",
+    "manifests/director/storage.pp": "b25731614494c4d0a1e70a0f6f88ec54",
+    "manifests/director.pp": "3cb65619a6035933ab1ae294fb60ecdc",
+    "manifests/init.pp": "f3941bf25da660156ab1217dfb64f148",
+    "manifests/params.pp": "bca8145c001917aaeee77b5e70a65058",
+    "manifests/repository.pp": "d0760fd2277df3042179fd3520ed612c",
+    "manifests/spec.pp": "4d7630cb609d60ed6992f0f10b68a01b",
+    "manifests/storage/device.pp": "cced2828a66d4c068dda08a601eccfaa",
+    "manifests/storage.pp": "77d75dc00488664133278a091894ac4f",
+    "spec/classes/bareos_client_spec.rb": "cade8e8761bbc44d1678f5d256d6158a",
+    "spec/classes/bareos_console_spec.rb": "95e2db3b8fbd38635812327fa58cfbaa",
+    "spec/classes/bareos_director_spec.rb": "e8585f6642bc23f09fd7b13d116dac37",
+    "spec/classes/bareos_spec.rb": "648739d2d0a16cd080710f8c6aa83de5",
+    "spec/classes/bareos_storage_spec.rb": "4c1febf0cd69508f6710997b748eeb1d",
+    "spec/defines/bareos_director_catalog_spec.rb": "9a7012f530ae91f953933c1e23a60e13",
+    "spec/defines/bareos_director_client_spec.rb": "186ecb778a8ae76852ea99ec4f8f6249",
+    "spec/defines/bareos_director_fileset_spec.rb": "6e23d586d131702e270a20658b2d5bcd",
+    "spec/defines/bareos_director_job_spec.rb": "3a6da9f94c9c7eef503259b6429a90b1",
+    "spec/defines/bareos_director_messages_spec.rb": "f18069ec80844e46d290088a60cec0de",
+    "spec/defines/bareos_director_pool_spec.rb": "90e8588928593b52140398ce34d31de8",
+    "spec/defines/bareos_director_schedules_spec.rb": "247a5d1f573506693f6abeb9d3f25108",
+    "spec/defines/bareos_director_storage_spec.rb": "418d2247dd1ccc838c112a78efbcb4b1",
+    "spec/defines/bareos_storage_device_spec.rb": "331d567ad3027c5c94fbd1bd65c2204b",
+    "spec/spec_helper.rb": "0db89c9a486df193c0e40095422e19dc",
+    "templates/bareos-dir.conf.erb": "58e414d5206d0c0c966657548880424d",
+    "templates/bareos-dir.init.erb": "a66f89b4451181e27bbef013f6835236",
+    "templates/bareos-fd.conf.erb": "27859ee29487f9ba631dfe53cf6ebd68",
+    "templates/bareos-fd.init.erb": "a66f89b4451181e27bbef013f6835236",
+    "templates/bareos-sd.conf.erb": "ffe3e105a0fa4006606a838cbfb92689",
+    "templates/bareos-sd.init.erb": "2bf60af9f55efe6d061aebb60a696720",
+    "templates/bareos.repo.erb": "58960cd1bb6d8138317fd04a39a14018",
+    "templates/bconsole.conf.erb": "a71af0e74a35639c9de7999f7d368caf",
+    "templates/director/catalog.conf.erb": "79f27e9662a434136294a10459e73a45",
+    "templates/director/client.conf.erb": "a957281c9b4ac40be7d513eff5b7be24",
+    "templates/director/fileset.conf.erb": "74f71cb33417326b912999f9f9974323",
+    "templates/director/job.conf.erb": "7216b15e0a971643f324fdcf9b09314e",
+    "templates/director/messages.conf.erb": "af983eac7955aaad6417fcc5ed9dab75",
+    "templates/director/pool.conf.erb": "869cf1d0639320312f641162c7440810",
+    "templates/director/schedule.conf.erb": "dc9bebd355641523c97ac425a2e648e1",
+    "templates/director/storage.conf.erb": "ef7df32bdb637d41af4a6aa1c89af950",
+    "templates/spec.erb": "055d4f22a02a677753cf922108b6e50c",
+    "templates/storage/device.conf.erb": "e1d58d610775396c73c49ba75c01164e",
+    "tests/absent.pp": "8f467e081d77b43542dc438a7aa890ed",
+    "tests/disable.pp": "6c9f37d4f3a349e849994ac59df53ed1",
+    "tests/init.pp": "9ead924389bd6202bedc999c88da10e0"
+  }
+}

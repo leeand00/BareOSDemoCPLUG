@@ -3,6 +3,10 @@
 # 1. Run `vagrant up`
 # 2. Run `vagrant hostmanager`
 
+# NOTE: vagrant's puppet provisioner sets things up initially..on the 
+#       bareos machines.
+#       then the machines are managed using the puppet_server after that.
+
 # Setup the Puppet Client (bareos)
 $puppetServerScript = <<SCRIPT
 sudo wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
@@ -18,6 +22,7 @@ SCRIPT
 
 # Setup the Puppet Client (bareos dir)
 $puppetClientBareOSdir = <<SCRIPT1
+# Setup the Puppet Client
 sudo wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 sudo dpkg -i puppetlabs-release-trusty.deb
 sudo apt-get --assume-yes install puppet
@@ -74,7 +79,17 @@ Vagrant.configure(2) do |config|
   config.vm.define :bareOSdirector do |srv|
       srv.vm.hostname = "bareOSdirector"
       srv.vm.network :private_network, ip: '10.0.3.10'
+  
+      # 1. Installs puppet agent for management later.
+      #    NOTE: Disable this when debugging and what not.
       srv.vm.provision "shell", inline: $puppetClientBareOSdir
+
+      # 2. Installs BareOS
+      srv.vm.provision "puppet" do |puppet|
+         puppet.manifests_path="manifests"
+         puppet.manifest_file="site.pp"
+         puppet.module_path="modules"
+      end
   end
 
   config.vm.define :webserver do |srv|
