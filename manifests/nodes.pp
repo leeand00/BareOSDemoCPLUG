@@ -1,6 +1,8 @@
 node 'bareOSdirector' {
 
-     file { [  '/mnt/backups', '/mnt/backups/bareos1' ]:
+     
+
+     file { [  '/mnt/backups', "/mnt/backups/${hostname}" ]:
        ensure => 'directory',
        owner => bareos,
        group => bareos,
@@ -84,7 +86,7 @@ node 'bareOSdirector' {
            database_password => 'turnkeyAvB12',
            database_name => 'bareos',
            database_backend => 'mysql',
-	   director_name => 'bareos1',
+	   director_name => "${hostname}",
            default_jobdef => 'DefaultJob',
            noops => false,
      }
@@ -145,12 +147,12 @@ node 'bareOSdirector' {
      }
 
 # Storage
-     # File Storage for lampdir-fd backup...
+     # File Storage for ${hostname}-fd backup...
      # TODO: Rename this...
-     bareos::director::storage{'File':
-	name => 'File',
+     bareos::director::storage{"${hostname}_FileStorage":
+	name => "${hostname}_FileStorage",
 	address => $ipaddress_eth0,
-	device => 'lampdir_filestorage_device',
+	device => "${hostname}_filestorage_device",
 	media_type => 'File'
      }
 
@@ -162,7 +164,7 @@ node 'bareOSdirector' {
 	level => 'Incremental',
 	fileset => 'SelfTest', # Forces you to remeber that you need to define a fileset in your job.
         job_schedule => 'WeeklyCycle',
-	storage => 'File',
+	storage => "${hostname}_FileStorage",
 	messages => 'standard',
 	pool => 'Incremental',
 	priority => '10',
@@ -177,14 +179,14 @@ node 'bareOSdirector' {
      # Define the main nightly save backup job
      bareos::director::job {'BaculaDirectorDirFiles':
         name => 'BaculaDirectorDirFiles',
-        client => 'lampdir-fd',
+        client => "${hostname}-fd",
         fileset => 'bacula_files_backup',
      }
 
      # Backup the catalog database (after the nightly save)
      bareos::director::job {'BackupCatalog':
         name => 'BackupCatalog',
-        client => 'lampdir-fd',
+        client => "${hostname}-fd",
 	level => 'Full',
         fileset => 'Catalog',
 	job_schedule => 'WeeklyCycle',
@@ -209,9 +211,9 @@ node 'bareOSdirector' {
      bareos::director::job {'RestoreFiles':
         name => 'RestoreFiles',
     	type => 'Restore',
-        client => 'lampdir-fd',
+        client => "${hostname}-fd",
         fileset => 'LinuxAll',
-        storage => 'File',
+        storage => "${hostname}_FileStorage",
         pool => 'Incremental',
         messages => 'standard',
         where => '/tmp/bareos-restores',
@@ -270,8 +272,8 @@ node 'bareOSdirector' {
      } 
 
      # Client (File Services) to backup
-     bareos::director::client {'lampdir-fd':
-	name => 'lampdir-fd',
+     bareos::director::client {"${hostname}-fd":
+	name => "${hostname}-fd",
         address => $ipaddress_eth0,
 	catalog => 'MyCatalog',  # See `Creates a catalog...`
 	file_retention => '30 days',
@@ -280,10 +282,10 @@ node 'bareOSdirector' {
 
      
 
-     bareos::storage::device {'lampdir_filestorage_device':
+     bareos::storage::device {"${hostname}_filestorage_device":
 #       device_type => '',
         media_type => 'File',
-        archive_device => '/mnt/backups/bareos1',
+        archive_device => "/mnt/backups/${hostname}",
         label_media => 'yes',
         random_access => 'yes',
         automatic_mount => 'yes',
