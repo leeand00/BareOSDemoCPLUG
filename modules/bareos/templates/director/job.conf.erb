@@ -59,4 +59,13 @@ Job {
 <% if @run_after_job != '' -%>
   RunAfterJob = "<%= @run_after_job %>"
 <% end -%>
+<% if @full_backup_pool != '' -%>
+  Full Backup Pool = <%= @full_backup_pool  %>
+<% end -%>
+<% if @diff_backup_pool != '' %>
+  DifferentialBackup Pool = <%= @diff_backup_pool  %>
+<% end -%>
+<% if @inc_backup_pool != '' %>
+  Incremental Backup Pool = <%= @inc_backup_pool  %>
+<% end -%>
 }

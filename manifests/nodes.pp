@@ -170,9 +170,9 @@ node 'bareOSdirector' {
 	priority => '10',
 	write_bootstrap => '/var/lib/bareos/%c.bsr',
 # TODO: WHAT THE HELL?!?!?
-#	full_backup_pool = 'Full'
-#	differental_pool = 'Differential'
-#       incremental_pool = 'Incremental'....
+	full_backup_pool => 'Full',
+	diff_backup_pool => 'Differential',
+        inc_backup_pool => 'Incremental',
      }
 
 
