@@ -6,6 +6,7 @@ define bareos::director::pool (
   $type = 'Backup',
   $maximum_volume_jobs = '1',
   $maximum_volume_bytes = '1G',
+  $maximum_volumes = '',
   $recycle = true,
   $action_on_purge = 'truncate',
   $auto_prune = true,
