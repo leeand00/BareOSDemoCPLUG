@@ -146,6 +146,51 @@ node 'bareOSdirector' {
 	type => 'Backup',
      }
 
+## GFS?? Pools (from tutorial)
+     bareos::director::pool{'Daily':
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+        volume_use_duration => '4 days',
+        volume_retention => '9 days',
+	maximum_volume_bytes => '1G',
+        maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
+                                 # over fill the disk or KVM Logical Volume.
+     	label_format => 'daily-${NumVols}',  # Note: There's no point in using the date variable here, 
+                                             #       since it's stored elsewhere in the volume meta data.
+					     #       Should craete files named "daily-1", "daily-2", etc..
+     }
+
+     bareos::director::pool{'Weekly':
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+        volume_use_duration => '70 hours',   # 70 hours ~= 3 days
+        volume_retention => '28 days',       # Could use a little less or a little more about every 
+					     # 4 weeks these are recycled.
+	maximum_volume_bytes => '1G',
+        maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
+                                 # over fill the disk or KVM Logical Volume.
+     	label_format => 'weekly-${NumVols}',  # Note: There's no point in using the date variable here, 
+                                             #       since it's stored elsewhere in the volume meta data.
+					     #       Should craete files named "weekly-1", "weekly-2", etc..
+     }
+
+     bareos::director::pool{'Monthly':
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+        volume_use_duration => '70 hours',   # 70 hours ~= 3 days
+        volume_retention => '28 days',       # Could use a little less or a little more about every 
+					     # 4 weeks these are recycled.
+	maximum_volume_bytes => '1G',
+        maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
+                                 # over fill the disk or KVM Logical Volume.
+     	label_format => 'monthly-${NumVols}',  # Note: There's no point in using the date variable here, 
+                                               #       since it's stored elsewhere in the volume meta data.
+				    	       #       Should craete files named "monthly-1", "monthly-2", etc..
+     }
+
 # Storage
      # File Storage for ${hostname}-fd backup...
      # TODO: Rename this...
@@ -166,7 +211,7 @@ node 'bareOSdirector' {
         job_schedule => 'WeeklyCycle',
 	storage => "${hostname}_FileStorage",
 	messages => 'standard',
-	pool => 'Incremental',
+	pool => 'Daily',
 	priority => '10',
 	write_bootstrap => '/var/lib/bareos/%c.bsr',
 # TODO: WHAT THE HELL?!?!?
