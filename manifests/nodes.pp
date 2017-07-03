@@ -214,7 +214,7 @@ node 'bareOSdirector' {
 	pool => 'Daily',
 	priority => '10',
 	write_bootstrap => '/var/lib/bareos/%c.bsr',
-# TODO: WHAT THE HELL?!?!?
+# TODO: WHAT THE HELL?!?!#?
 	full_backup_pool => 'Full',
 	diff_backup_pool => 'Differential',
         inc_backup_pool => 'Incremental',
@@ -246,7 +246,10 @@ node 'bareOSdirector' {
         # This sends the bootstrap via mail for disaster recovery.
         # Should be sent to another system, please change recipient accordingly
         #write_bootstrap => "|/usr/bin/bsmtp -h localhost -f \"\(Bareos\) \" -s \"Bootstrap for Job %j\" root@localhost",
-        
+       
+  	# NOTE: This job MUST be run after all the other jobs have run.
+     	#       This is accomplished by setting it to a priority number higher
+        #       than the rest of the jobs.
         # run after main backup
 	priority => '11',
      }
@@ -255,6 +258,7 @@ node 'bareOSdirector' {
      # Backup the catalog database (after the nightly save)
      bareos::director::job {'RestoreFiles':
         name => 'RestoreFiles',
+	job_schedule => '',
     	type => 'Restore',
         client => "${hostname}-fd",
         fileset => 'LinuxAll',
@@ -311,9 +315,18 @@ node 'bareOSdirector' {
      bareos::director::schedule{'WeeklyCycle':
        name => 'WeeklyCycle',
        
-       run_spec => [['Full', '1st sat','23:05'],
-                    ['Differential', '2nd-5th sat', '23:05'], 
-                    ['Incremental', 'mon-fri', '23:05']],
+#       run_spec => [['Differential', 'Pool = Daily', 'monday-thursday', '20:00'], # 8pm
+#                    ['Differential', '2nd-5th sat', '23:05'], 
+#                    ['Incremental', 'mon-fri', '23:05']],
+
+       run_spec => [
+                    ['Differential', 'Pool=Daily monday-thursday', '23:30'], # 11pm (sons)
+                    ['Full', 'Pool=Weekly 2nd-5th Friday', '23:30'], # 11pm (fathers)  
+								     # Note: 2nd - 5th Friday because some months have 5 fridays in them.
+                    ['Full', 'Pool=Monthly 1st Friday', '23:30'] # First Friday of the month Montly backup is done.
+								 # 11pm (grandfathers)
+
+                   ], 
      } 
 
      # Client (File Services) to backup
