@@ -1,6 +1,11 @@
 node 'bareOSdirector' {
 
      
+     exec {'Adding user vagrant to bareos group':
+		command => 'sudo usermod -G bareos vagrant',
+		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
+		cwd	=> '/home/vagrant',
+     }
 
      file { [  '/mnt/backups', "/mnt/backups/${hostname}" ]:
        ensure => 'directory',
@@ -8,6 +13,7 @@ node 'bareOSdirector' {
        group => bareos,
        mode  => 660,
      }
+
 
      # See: http://linuxpitstop.com/install-bareos-backup-solution-on-centos-7/
      # This is done so that the scripts may run to install the database
