@@ -1,5 +1,8 @@
 node 'bareOSdirector' {
 
+     # Allow email to be sent from this bareOSdirector
+     # to my gmail account.
+     include postfix
      
      exec {'Adding user vagrant to bareos group':
 		command => 'sudo usermod -G bareos vagrant',
@@ -109,6 +112,9 @@ node 'bareOSdirector' {
 
      bareos::director::messages{'standard':
 	name => 'standard',
+        mail_command => '/usr/bin/mail',
+	mail_from => 'helpdeskaleer@gmail.com',
+	mail_to => 'helpdeskaleer@gmail.com',	
      }
 
      bareos::director::messages{'Daemon':
