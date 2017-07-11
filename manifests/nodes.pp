@@ -5,7 +5,7 @@ node 'bareOSdirector' {
      include postfix
      
      exec {'Adding user vagrant to bareos group':
-		command => 'sudo usermod -G bareos vagrant',
+		command => 'sudo usermod -G vagrant,bareos vagrant',
 		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
 		cwd	=> '/home/vagrant',
      }
