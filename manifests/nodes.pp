@@ -165,7 +165,8 @@ node 'bareOSdirector' {
         auto_prune => 'yes',
         volume_use_duration => '4 days',
         volume_retention => '9 days',
-	maximum_volume_bytes => '1G',
+	maximum_volume_bytes => '10G',       # NOTE: A 1G setting on this overflowed into another vol, so I'm trying 10G. 
+        maximum_volume_jobs => '10',
         maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
                                  # over fill the disk or KVM Logical Volume.
      	label_format => 'daily-${NumVols}',  # Note: There's no point in using the date variable here, 
@@ -180,7 +181,8 @@ node 'bareOSdirector' {
         volume_use_duration => '70 hours',   # 70 hours ~= 3 days
         volume_retention => '28 days',       # Could use a little less or a little more about every 
 					     # 4 weeks these are recycled.
-	maximum_volume_bytes => '1G',
+	maximum_volume_bytes => '10G',
+	maximum_volume_jobs => '100',
         maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
                                  # over fill the disk or KVM Logical Volume.
      	label_format => 'weekly-${NumVols}',  # Note: There's no point in using the date variable here, 
@@ -190,13 +192,13 @@ node 'bareOSdirector' {
 
      bareos::director::pool{'Monthly':
         type => 'Backup',
-        recycle => 'yes',
-        auto_prune => 'yes',
+        recycle => 'yes',		     # Bacula can automatically recycle volumes. 
+        auto_prune => 'yes',                 # Prune expired volumes
         volume_use_duration => '70 hours',   # 70 hours ~= 3 days
-        volume_retention => '28 days',       # Could use a little less or a little more about every 
-					     # 4 weeks these are recycled.
-	maximum_volume_bytes => '1G',
-        maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
+        volume_retention => '362 days',      # One year
+	maximum_volume_bytes => '10G',
+        maximum_volume_jobs => '100', 
+	maximum_volumes => '10', # Should be multiplied by Maximum Volume Bytes to make sure you don't
                                  # over fill the disk or KVM Logical Volume.
      	label_format => 'monthly-${NumVols}',  # Note: There's no point in using the date variable here, 
                                                #       since it's stored elsewhere in the volume meta data.
@@ -346,8 +348,8 @@ node 'bareOSdirector' {
 	name => "${hostname}-fd",
         address => $ipaddress_eth0,
 	catalog => 'MyCatalog',  # See `Creates a catalog...`
-	file_retention => '30 days',
-	job_retention => '6 months',
+	file_retention => '6 months',  # Should be 6 months or so until you learn bacula better. 
+	job_retention => '1 year',     # Should be equal to your maximum volume_retention (see the Monthly pool)
      }
 
      
