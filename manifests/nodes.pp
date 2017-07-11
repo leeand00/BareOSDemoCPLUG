@@ -365,6 +365,28 @@ node 'bareOSdirector' {
      }
 
 
+     exec {'Setting Time':
+		command => 'sudo date -s \"1 JAN 2017 01:00:00\"',
+		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
+		cwd	=> '/home/vagrant',
+		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
+     }
+
+# We must stop this service so that
+# we can set the date when testing 
+# backup configuarions.
+#
+# Note: you may also be required to run "VBoxManage setextradata "VM name" "VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled" 1"
+# to keep the date from being set
+#
+# Note: If it becomes evident that you need this vboxadd-service,
+#       you can do this to disable the timesync with the host:
+#       https://stackoverflow.com/a/38657239  
+#        
+     service {'vboxadd-service':
+	ensure => 'stopped',
+     }
+
 }
 
 node 'webserver' {
