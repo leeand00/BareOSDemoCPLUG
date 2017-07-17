@@ -254,12 +254,23 @@ node 'bareOSdirector' {
         # Arguments to make_catalog_backup.pl are:
         # make_catalog_backup.pl <catalog-name>
         client_run_before_job => '/usr/lib/bareos/scripts/make_catalog_backup.pl MyCatalog',
-        client_run_after_job => '/usr/lib/bareos/scripts/delete_catalog_backup',
+        
+        # Somewhere in the tutorial he said to comment this out...so you can pick it up
+        # later if something goes wrong.
+        #client_run_after_job => '/usr/lib/bareos/scripts/delete_catalog_backup',
 
-        # TODO: FIGURE OUT WHERE TO SEND THIS!!! IT IS FOR DISASTER RECOVERY!
-        # This sends the bootstrap via mail for disaster recovery.
-        # Should be sent to another system, please change recipient accordingly
         #write_bootstrap => "|/usr/bin/bsmtp -h localhost -f \"\(Bareos\) \" -s \"Bootstrap for Job %j\" root@localhost",
+
+	# THIS IS FOR DISASTER RECOVERY OF THE BACKUP SERVER!
+	# This is from http://www.binarytides.com/linux-mail-command-examples/
+	# "2. Subject and Message in a single line"   
+ 	write_bootstrap => "|/usr/bin/mail -s \\\"Bareos: Bootstrap file for Job ID:  %j\\\" 'helpdeskaleer@gmail.com' <<< 'helpdeskaleer@gmail.com",
+
+        # NOTE: They also say you should write out one of these with every job that you run, 
+        #       to avoid running bscan on disaster recovery.
+	# ALSO NOTE: If you wish to write it out to a file on a mounted smb share instead
+	#            use the following line:
+	#write_bootstrap => "/var/lib/bareos/%n.bsr", # This works, but it nly writes out a file...
        
   	# NOTE: This job MUST be run after all the other jobs have run.
      	#       This is accomplished by setting it to a priority number higher
