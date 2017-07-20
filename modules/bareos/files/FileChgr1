@@ -1,0 +1,18 @@
+Autochanger {
+  Name = FileChgr1
+  Device = FileChgr1-Dev1
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileChgr1-Dev1
+  Media Type = File1
+  Archive Device = /mnt/backup
+  LabelMedia = yes;
+  Random Access = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
