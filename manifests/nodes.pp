@@ -4,6 +4,19 @@ node 'bareOSdirector' {
      # to my gmail account.
      include postfix
      
+     # Include bareos-tools
+     # For instance bls and bextract...
+     # Note: Not sure if these really need to be included in a production server
+     #       since you use these tools when the production server needs a disaster 
+     #       recovery...but when reading up on this and doing tutorials they came 
+     #       up and were not installed, so I am installing them here.
+     #
+     #include bareostools
+     # TODO: Fix this so that you can get that class working should you need it...
+     package {'bareos-tools':
+	ensure => installed,
+     }
+
      exec {'Adding user vagrant to bareos group':
 		command => 'sudo usermod -G vagrant,bareos vagrant',
 		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
