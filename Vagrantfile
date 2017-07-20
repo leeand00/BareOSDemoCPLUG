@@ -28,6 +28,14 @@ sudo dpkg -i puppetlabs-release-trusty.deb
 sudo apt-get --assume-yes install puppet
 SCRIPT1
 
+# Setup the Puppet Client (bareos dir)
+$puppetClientBareOSRemoteSD = <<SCRIPT3
+# Setup the Puppet Client
+sudo wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+sudo dpkg -i puppetlabs-release-trusty.deb
+sudo apt-get --assume-yes install puppet
+SCRIPT3
+
 # Setup the Puppet Client (web server)
 $puppetClientWebserver = <<SCRIPT2
 sudo wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
@@ -92,9 +100,30 @@ Vagrant.configure(2) do |config|
       end
   end
 
+  # Okay so it's not REALLY remote, but this is added here just for
+  # testing purposes.
+  config.vm.define :bareOSremoteSD do |srv|
+      srv.vm.hostname = "bareOSremoteSD"
+      srv.vm.network :private_network, ip: '10.0.3.9'
+  
+      # 1. Installs puppet agent for management later.
+      #    NOTE: Disable this when debugging and what not.
+      srv.vm.provision "shell", inline: $puppetClientBareOSRemoteSD
+
+      # 2. Installs BareOS
+      srv.vm.provision "puppet" do |puppet|
+         puppet.manifests_path="manifests"
+         puppet.manifest_file="site.pp"
+         puppet.module_path="modules"
+      end
+  end
+
   config.vm.define :webserver do |srv|
       srv.vm.hostname = "webserver"
       srv.vm.network :private_network, ip: '10.0.3.8'   
       srv.vm.provision "shell", inline: $puppetClientWebserver
   end
+
+
+
 end

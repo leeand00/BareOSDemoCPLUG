@@ -416,6 +416,23 @@ node 'bareOSdirector' {
 
 }
 
+node 'bareOSremoteSD' {
+
+	class {'bareos':
+	      manage_client => true,
+	      manage_storage => true,
+	      manage_director => false,
+	      manage_console => false,
+	      manage_database => false,
+	      default_password => '***REMOVED***',
+	      storage_template => 'bareos/bareos-sd.conf.erb',
+	      client_template => 'bareos/bareos-fd.conf.erb',
+	      client_address => $ipaddress_eth0,
+	      version => '16.2.4-12.1',
+	      noops => false,
+	}
+}
+
 node 'webserver' {
 
     class{'bareos':
