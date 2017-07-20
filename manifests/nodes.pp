@@ -427,10 +427,35 @@ node 'bareOSremoteSD' {
 	      default_password => '***REMOVED***',
 	      storage_template => 'bareos/bareos-sd.conf.erb',
 	      client_template => 'bareos/bareos-fd.conf.erb',
-	      client_address => $ipaddress_eth0,
+	      client_address => $ipaddress_eth2,
 	      version => '16.2.4-12.1',
 	      noops => false,
+
+	      # Configure the off-site storage daemon
+	      storage_name => "${hostname}",
+	      storage_address => $ipaddress_eth0,
+	      storage_max_concurrent => 20,
+	      director_name => 'bareOSdirector',  # TODO: Find a way to get this directly form the node above.
+	      storage_password => '%!dasr3$AvTzeeErFM^ll2134345BEaffZnTWx',
 	}
+
+	file {'/etc/bareos/storage.d/FileChgr1.conf':
+	     content => file("bareos/FileChgr1"),
+	     owner => bareos,
+ 	     group => bareos,
+             mode => 660,
+	}
+
+        file { [  '/mnt/backups', "/mnt/backup" ]:
+     	     ensure => 'directory',
+             owner => bareos,
+             group => bareos,
+             mode  => 660,
+        }
+
+
+	#bareos::storage::device{"${hostname}_filestorage_device
+	
 }
 
 node 'webserver' {
