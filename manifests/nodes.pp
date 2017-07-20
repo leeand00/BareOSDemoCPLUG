@@ -304,6 +304,7 @@ node 'bareOSdirector' {
         pool => 'Incremental',
         messages => 'standard',
         where => '/tmp/bareos-restores',
+	enabled => 'no',  # Permanently disables scheduling of the job. (between reloads, you can always disable it)
      }
 
 

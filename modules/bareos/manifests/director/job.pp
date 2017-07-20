@@ -33,6 +33,7 @@ define bareos::director::job (
   $full_backup_pool = '',
   $inc_backup_pool = '',
   $diff_backup_pool = '',  
+  $enabled = '',
   $options_hash = {},
   $template = 'bareos/director/job.conf.erb'
 ) {
