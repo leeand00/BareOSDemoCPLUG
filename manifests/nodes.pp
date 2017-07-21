@@ -225,7 +225,20 @@ node 'bareOSdirector' {
 	name => "${hostname}_FileStorage",
 	address => $ipaddress_eth0,
 	device => "${hostname}_filestorage_device",
-	media_type => 'File'
+	media_type => 'File',
+	autochanger => 'yes',
+     }
+
+     # Add the storage for the bareOSremoteSD
+     bareos::director::storage{"bareOSremoteSD":
+        name => "bareOSremoteSD",
+	address => "bareOSremoteSD",  # TODO: See if this works...
+	password => "storage_password",
+	sd_port => '9103',
+        device => "FileChgr1",
+	media_type => "File1",
+	max_concurrent => "10", # Max Concurrent Jobs...
+	
      }
 
      # Define the main nightly save backup job
@@ -371,7 +384,7 @@ node 'bareOSdirector' {
      # Client (File Services) to backup
      bareos::director::client {"${hostname}-fd":
 	name => "${hostname}-fd",
-        address => $ipaddress_eth0,
+        address => $ipaddress_eth2,
 	catalog => 'MyCatalog',  # See `Creates a catalog...`
 	file_retention => '6 months',  # Should be 6 months or so until you learn bacula better. 
 	job_retention => '1 year',     # Should be equal to your maximum volume_retention (see the Monthly pool)
@@ -433,10 +446,10 @@ node 'bareOSremoteSD' {
 
 	      # Configure the off-site storage daemon
 	      storage_name => "${hostname}",
-	      storage_address => $ipaddress_eth0,
+	      storage_address => $ipaddress_eth2,
 	      storage_max_concurrent => 20,
 	      director_name => 'bareOSdirector',  # TODO: Find a way to get this directly form the node above.
-	      storage_password => '%!dasr3$AvTzeeErFM^ll2134345BEaffZnTWx',
+	      storage_password => "storage_password",
 	}
 
 	file {'/etc/bareos/storage.d/FileChgr1.conf':
@@ -453,9 +466,6 @@ node 'bareOSremoteSD' {
              mode  => 660,
         }
 
-
-	#bareos::storage::device{"${hostname}_filestorage_device
-	
 }
 
 node 'webserver' {
