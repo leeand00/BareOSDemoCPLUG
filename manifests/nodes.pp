@@ -142,7 +142,8 @@ node 'bareOSdirector' {
 	volume_retention => '365 days',
 	maximum_volume_bytes => '50G',
 	maximum_volume_jobs => '100',
-	label_format => "Full-"
+	label_format => "Full-",
+	storage => 'bareOSdirector_FileStorage',
      }
 
      bareos::director::pool{'Differential':
@@ -152,7 +153,8 @@ node 'bareOSdirector' {
 	volume_retention => '90 days',
 	maximum_volume_bytes => '10G',
 	maximum_volume_jobs => '100',
-	label_format => "Differential-"
+	label_format => "Differential-",
+	storage => 'bareOSdirector_FileStorage',
      }
 
 
@@ -163,7 +165,8 @@ node 'bareOSdirector' {
 	volume_retention => '30 days',
 	maximum_volume_bytes => '1G',
 	maximum_volume_jobs => '100',
-	label_format => "Incremental-"
+	label_format => "Incremental-",
+	storage => 'bareOSdirector_FileStorage',
      }
 
      bareos::director::pool{'Scratch':
@@ -185,6 +188,7 @@ node 'bareOSdirector' {
      	label_format => 'daily-${NumVols}',  # Note: There's no point in using the date variable here, 
                                              #       since it's stored elsewhere in the volume meta data.
 					     #       Should craete files named "daily-1", "daily-2", etc..
+	storage => 'bareOSdirector_FileStorage',
      }
 
      bareos::director::pool{'Weekly':
@@ -201,6 +205,7 @@ node 'bareOSdirector' {
      	label_format => 'weekly-${NumVols}',  # Note: There's no point in using the date variable here, 
                                              #       since it's stored elsewhere in the volume meta data.
 					     #       Should craete files named "weekly-1", "weekly-2", etc..
+	storage => 'bareOSdirector_FileStorage',
      }
 
      bareos::director::pool{'Monthly':
@@ -216,6 +221,7 @@ node 'bareOSdirector' {
      	label_format => 'monthly-${NumVols}',  # Note: There's no point in using the date variable here, 
                                                #       since it's stored elsewhere in the volume meta data.
 				    	       #       Should craete files named "monthly-1", "monthly-2", etc..
+	storage => 'bareOSdirector_FileStorage',
      }
 
 # Storage
@@ -249,7 +255,8 @@ node 'bareOSdirector' {
 	level => 'Incremental',
 	fileset => 'SelfTest', # Forces you to remeber that you need to define a fileset in your job.
         job_schedule => 'WeeklyCycle',
-	storage => "${hostname}_FileStorage",
+        # Note: I removed storage from the Default JobDef because it confuses people.
+	#storage => "${hostname}_FileStorage",
 	messages => 'standard',
 	pool => 'Daily',
 	priority => '10',
@@ -275,6 +282,7 @@ node 'bareOSdirector' {
 	level => 'Full',
         fileset => 'Catalog',
 	job_schedule => 'WeeklyCycle',
+
 
         # This creates an ASCII copy of the catalog
         # Arguments to make_catalog_backup.pl are:
