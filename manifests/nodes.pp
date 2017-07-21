@@ -372,7 +372,8 @@ node 'bareOSdirector' {
     	type => 'Restore',
         client => "${hostname}-fd",
         fileset => 'LinuxAll',
-        storage => "${hostname}_FileStorage",
+	# If you're going to restore files, you should select the storage you're going to use.
+        # storage => "${hostname}_FileStorage",
         pool => 'Incremental',
         messages => 'standard',
         where => '/tmp/bareos-restores',
