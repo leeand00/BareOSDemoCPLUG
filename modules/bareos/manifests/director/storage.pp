@@ -11,6 +11,7 @@ define bareos::director::storage (
   $max_concurrent = '',
   $allow_compression = 'Yes',
   $source = '',
+  $autochanger = '',
   $options_hash = {},
   $template = 'bareos/director/storage.conf.erb'
 ) {
