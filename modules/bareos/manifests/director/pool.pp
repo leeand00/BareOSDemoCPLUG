@@ -14,6 +14,7 @@ define bareos::director::pool (
   $volume_use_duration = '',
   $label_format = 'Volume-',
   $storage = '',
+  $next_pool = '',
   $options_hash = {},
   $template = 'bareos/director/pool.conf.erb'
 ) {
