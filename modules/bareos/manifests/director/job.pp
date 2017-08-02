@@ -17,6 +17,7 @@ define bareos::director::job (
   $level = '',
   $fileset = '',
   $storage = '',
+  $selection_type = '',
   $pool = '',
   $prefer_mounted_volumes = '',
   $write_bootstrap = '',
