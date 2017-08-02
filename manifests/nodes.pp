@@ -287,6 +287,7 @@ node 'bareOSdirector' {
      }
 
      # Add the storage for the bareOSremoteSD
+     # (Used to store jobs on a remote storage daemon)
      bareos::director::storage{"bareOSremoteSD":
         name => "bareOSremoteSD",
 	address => "bareOSremoteSD",  # TODO: See if this works...
