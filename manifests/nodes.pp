@@ -299,6 +299,19 @@ node 'bareOSdirector' {
 	
      }
 
+     # Add the storage for the CopyJobs
+     # Used to copy jobs to a remote storage daemon
+     # from the local director.
+     bareos::director::storage{"File2":
+        name => "File2",
+	address => "bareOSremoteSD",  # TODO: See if this works...
+	password => "storage_password",
+	sd_port => '9103',
+        device => "FileChgr2",
+	media_type => "File4",
+	max_concurrent => "5", # Max Concurrent Jobs...
+     }
+
      # Define the main nightly save backup job
      bareos::director::job {'DefaultJob':
         name => 'DefaultJob',
@@ -520,7 +533,8 @@ node 'bareOSremoteSD' {
              mode => 660,
 	}
 
-        file { [  '/mnt/backups', "/mnt/backup" ]:
+
+        file { [  '/mnt/backups', "/mnt/backup", "/mnt/backup2", "/mnt/backup3", "/mnt/backup4" ]:
      	     ensure => 'directory',
              owner => bareos,
              group => bareos,
