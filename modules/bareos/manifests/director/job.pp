@@ -46,7 +46,7 @@ define bareos::director::job (
     default => undef,
   }
 
-  if $use_as_def  ==  true or $client == '' {
+  if $use_as_def  ==  true or $name == 'DefaultJob' {
     $job_name = "jobdef-${name}"
   } else {
     $job_name = "job-${client}-${name}"

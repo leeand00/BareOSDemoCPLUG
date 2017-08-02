@@ -1,6 +1,6 @@
 # This file is managed by Puppet. DO NOT EDIT.
 
-<% if @use_as_def == true  or @client == '' -%>
+<% if @use_as_def == true  or @name == 'DefaultJob' -%>
 JobDefs {
 <% else -%>
 Job {
@@ -10,7 +10,7 @@ Job {
 <% if @client != '' -%>
   Client = "<%= @client %>"
 <% end -%>
-<% if @real_jobdef != '' -%>
+<% if @real_jobdef != '' and @type != 'Copy' -%>
   JobDefs = "<%= @real_jobdef %>"
 <% end -%>
 <% end -%>
