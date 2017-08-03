@@ -222,6 +222,7 @@ node 'bareOSdirector' {
                                                #       since it's stored elsewhere in the volume meta data.
 				    	       #       Should craete files named "monthly-1", "monthly-2", etc..
 	storage => 'bareOSdirector_FileStorage',
+        next_pool => 'MonthlyCopyPool',  # The destination pool for the Monthly Copy...for Copy Jobs
      }
 
 # Off-site Backup Pools
@@ -275,6 +276,21 @@ node 'bareOSdirector' {
      	storage => 'bareOSremoteSD' # Set to use offsite storage...
      }
 
+# Copy Job off-site copy destination pools
+     bareos::director::pool{'MonthlyCopyPool':
+        name => 'MonthlyCopyPool',
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+        volume_retention => '365 days',
+        maximum_volume_bytes => '50G',
+	maximum_volume_jobs => '100',
+        maximum_volumes => '100',
+        label_format => '${Pool}-${NumVols}',
+        storage => 'File2'
+     }    
+
+
 # Storage
      # File Storage for ${hostname}-fd backup...
      # TODO: Rename this...
@@ -296,7 +312,6 @@ node 'bareOSdirector' {
         device => "FileChgr1",
 	media_type => "File1",
 	max_concurrent => "10", # Max Concurrent Jobs...
-	
      }
 
      # Add the storage for the CopyJobs
@@ -394,6 +409,14 @@ node 'bareOSdirector' {
 	enabled => 'no',  # Permanently disables scheduling of the job. (between reloads, you can always disable it)
      }
 
+     # Copy Backup Files to Remote Storage
+     bareos::director::job {'MonthlyBackupCopy':
+        name => 'MonthlyBackupCopy',
+        type => 'Copy',     # Copy the jobs from the local to the remote
+        pool => 'Monthly',  # Source Pool
+        storage => 'File2', # Destination Storage
+        selection_type => 'PoolUncopiedJobs',
+     }
 
      # Fileset for backing up the bacula server itself.
      bareos::director::fileset{'bacula_files_backup':
