@@ -1,0 +1,19 @@
+github_username: 'aleer'
+github_email: 'leeand00@hotmail.com'
+gfs19:
+        g: 'monthly'
+        f: 'weekly'
+        s: 'daily'
+test_1:
+        name_a: 
+                message: 'NameA'
+                url: 'http://www.ozonesasylum.com/'
+        name_b:
+                message: 'NameB'
+                url: 'http://www.gurusnetwork.com/'
+        name_c:
+                message: 'NameC'
+                url: 'http://www.hotbot.com/'
+        name_d:
+                message: 'NameD'
+                url: 'http://www.yahoo.com/'

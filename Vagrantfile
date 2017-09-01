@@ -43,9 +43,20 @@ sudo dpkg -i puppetlabs-release-trusty.deb
 sudo apt-get --assume-yes install puppet
 SCRIPT2
 
+
 Vagrant.configure(2) do |config|
   
   config.vm.box = "leeand00/turnkey-lamp-14.2"
+  
+  #  
+  #
+  # For every machine that comes up, make sure to disable the time sync between 
+  # the host and the server...
+  #
+  # The following changes make this possible and are listed in the shell script.
+  #
+  # https://stackoverflow.com/questions/45722449/keep-vboxadd-service-running-on-a-guest-vm-without-syncing-the-time-with-the-hos
+  config.vm.provision "shell", path: 'shellscripts/disabletimesync.sh'
 
   config.vm.provider "virtualbox" do |vb|
       vb.cpus = 2
@@ -79,7 +90,8 @@ Vagrant.configure(2) do |config|
   config.vm.define :puppet_server do |srv|
       srv.vm.hostname = "puppet-server"
       srv.vm.network :private_network, ip: '10.0.3.15'
-      srv.vm.provision "shell", inline: $puppetServerScript 
+      srv.vm.provision "shell", inline: $puppetServerScript
+
       srv.vm.synced_folder "src/puppet-server", "/etc/puppet", create: true
      
   end
@@ -97,6 +109,7 @@ Vagrant.configure(2) do |config|
          puppet.manifests_path="manifests"
          puppet.manifest_file="site.pp"
          puppet.module_path="modules"
+         puppet.options="--hiera_config /vagrant/hieradata/hiera.yaml"
       end
   end
 
@@ -120,8 +133,19 @@ Vagrant.configure(2) do |config|
 
   config.vm.define :webserver do |srv|
       srv.vm.hostname = "webserver"
-      srv.vm.network :private_network, ip: '10.0.3.8'   
+      srv.vm.network :private_network, ip: '10.0.3.8'
+   
+      # 1. Installs puppet agent for management later.
+      #    NOTE: Disable this when debugging and what not.
       srv.vm.provision "shell", inline: $puppetClientWebserver
+
+      # 2. Installs BareOS
+      srv.vm.provision "puppet" do |puppet|
+         puppet.manifests_path="manifests"
+         puppet.manifest_file="site.pp"
+         puppet.module_path="modules"
+         puppet.options="--verbose --debug --hiera_config /vagrant/hieradata/hiera.yaml"
+      end
   end
 
 

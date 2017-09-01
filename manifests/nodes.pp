@@ -8,13 +8,14 @@ node 'bareOSdirector' {
      # - This includes the database setup...
      include bareosdir 
 
-
-#     exec {'Setting Time':
-#		command => 'sudo date -s \"1 JAN 2017 01:00:00\"',
-#		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
-#		cwd	=> '/home/vagrant',
-#		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
-#     }
+     # Automatically set the time back to 30 DEC 2016 21:30:00...so that we have a fresh point to
+     # test the backups with...you may want to comment this out after setup.
+     exec {'Setting Time':
+		command => 'sudo date -s "30 DEC 2016 21:30:00"',
+		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
+		cwd	=> '/home/vagrant',
+		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
+     }
 
 # We must stop this service so that
 # we can set the date when testing 
@@ -27,9 +28,9 @@ node 'bareOSdirector' {
 #       you can do this to disable the timesync with the host:
 #       https://stackoverflow.com/a/38657239  
 #        
-     service {'vboxadd-service':
-	ensure => 'stopped',
-     }
+#     service {'vboxadd-service':
+#	ensure => 'stopped',
+#     }
 
 }
 
@@ -74,7 +75,7 @@ node 'bareOSremoteSD' {
 }
 
 node 'webserver' {
-
+    
     class{'bareos':
            manage_client => true,
            manage_storage => false,
@@ -82,13 +83,67 @@ node 'webserver' {
            manage_console => false,
            version => '16.2.4-12.1',
            noops => false,
+
+	   director_name => 'bareOSdirector',  # TODO: Find a way to get this directly form the node above.
+	   default_password => '***REMOVED***',
+	   client_template => 'bareos/bareos-fd.conf.erb',
+           client_address => $ipaddress_eth2,
+
     }
+
+    # Create a file for generating a bunch of random file content
+    # for us to back up.
+    file {'/home/vagrant/random.sh':
+        content => file('bareos/random.sh'),
+        owner => vagrant,
+        mode => 775,
+    }
+
 
     file {'/tmp/nginx.txt':
           content => "nginx\n",
           owner => root,
           mode => 775,
     }
+
+     # Stops syncing the clock of the guest to the host
+     #service {'vboxadd-service':
+     #	ensure => 'stopped',
+     #}
+
+#   $clientBackupPath = "/mnt/backups/${clientName}" 
+#
+   $GFS = {
+	'g' => 'monthly',
+	'f' => 'weekly',
+	's' => 'daily', 	
+   }
+#
+#   $GFSarr = ["${clientBackupPath}/daily","${clientBackupPath}/weekly","${clientBackupPath}/monthly"]
+
+   $b = ['a','b','c']
+
+    $k = keys($GFS)
+
+    notify {$k:
+	message => $name,
+    }
+
+#    $gitHubUsername = hiera("github_username")
+#    $gitHubEmail = hiera("github_email")
+#    $dasTest1 = hiera("test_1")
+#    $w = keys($dasTest1)
+#
+#    notify{"test":
+#      message => "Username: ${gitHubUsername}, Email: ${gitHubEmail}, test: ${w}",
+#    }
+
+
+     class {'testme':
+
+     }
+
+#   $b.each |Integer $index, String $value| { notice("${index} = ${value}") }
 }
 
 node default {

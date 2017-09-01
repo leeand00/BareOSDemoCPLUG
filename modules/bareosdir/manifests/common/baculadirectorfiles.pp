@@ -29,7 +29,7 @@ class bareosdir::common::baculadirectorfiles {
      # TODO: Rename this...
      bareos::director::storage{"${hostname}_FileStorage":
 	name => "${hostname}_FileStorage",
-	address => $ipaddress_eth0,
+	address => $ipaddress_eth2,
 	device => "${hostname}_filestorage_device",
 	media_type => 'File',
 	autochanger => 'yes',
