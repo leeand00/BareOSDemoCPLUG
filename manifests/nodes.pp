@@ -139,9 +139,9 @@ node 'webserver' {
 #    }
 
 
-     class {'testme':
-
-     }
+#     class {'testme':
+#
+#     }
 
 #   $b.each |Integer $index, String $value| { notice("${index} = ${value}") }
 }
