@@ -1,4 +1,4 @@
-define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHostname, $backupBasePath, $gfsHash) {
+define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHostname, $backupBasePath, $includeBackupCopyJobs, $gfsHash) {
 
     $clientBackupPath = "${backupBasePath}/${clientName}"  
 
@@ -7,8 +7,6 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
 
     # Obtain the label of the object from the object...
     $whichGFS = $whichGFSobj['gfs_obj_label']
-   
-     
  
     notify {"${name}_notify":
 	message => "${whichGFS}"
@@ -40,6 +38,9 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
 	always_open => 'yes',
    }    
 
+
+if $includeBackupCopyJobs == true {
+
      bareos::director::pool{"${clientName}-${whichGFS}-pool":
         type => 'Backup',
         recycle => $whichGFSobj['recycle'],
@@ -51,10 +52,70 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
         maximum_volumes => $whichGFSobj['maximum_volumes'], # Should be multiplied by Maximum Volume Bytes to make sure you don't
                                  # over fill the disk or KVM Logical Volume.
      	label_format => "${clientName}-${whichGFS}-volnum-\\$\\{NumVols\\}",  # Note: There's no point in using the date variable here, 
-                                             #       since it's stored elsewhere in the volume meta data.
-					     #       Should craete files named "daily-1", "daily-2", etc..
+        				                                      #       since it's stored elsewhere in the volume meta data.
+					 				      #       Should craete files named "daily-1", "daily-2", etc..
+	storage => "${clientName}-${whichGFS}-fileStorage",
+	next_pool => "${clientName}-${whichGFS}-CopyPool",
+    }
+
+
+
+} 
+else 
+{
+     bareos::director::pool{"${clientName}-${whichGFS}-pool":
+        type => 'Backup',
+        recycle => $whichGFSobj['recycle'],
+        auto_prune => $whichGFSobj['auto_prune'],
+        volume_use_duration => $whichGFSobj['volume_use_duration'],
+        volume_retention => $whichGFSobj['volume_retention'],
+	maximum_volume_bytes => $whichGFSobj['maximum_volume_bytes'],       # NOTE: A 1G setting on this overflowed into another vol, so I'm trying 10G. 
+        maximum_volume_jobs => $whichGFSobj['maximum_volume_jobs'],
+        maximum_volumes => $whichGFSobj['maximum_volumes'], # Should be multiplied by Maximum Volume Bytes to make sure you don't
+                                 # over fill the disk or KVM Logical Volume.
+     	label_format => "${clientName}-${whichGFS}-volnum-\\$\\{NumVols\\}",  # Note: There's no point in using the date variable here, 
+				                                              #       since it's stored elsewhere in the volume meta data.
+								  	      #       Should craete files named "daily-1", "daily-2", etc..
 	storage => "${clientName}-${whichGFS}-fileStorage",     
     }
+}
+
+if $includeBackupCopyJobs == true {
+
+   bareos::director::job {"${clientName}-${whichGFS}-CopyJob":
+   	type => "Copy",
+        jobdef => "DefaultJob",
+        pool => "${clientName}-${whichGFS}-pool",
+	storage => "File-${clientName}-${whichGFS}-CopyPool",
+   	selection_type => "PoolUncopiedJobs",
+   }
+
+     # Copy Job off-site copy destination pools
+     bareos::director::pool{"${clientName}-${whichGFS}-CopyPool":
+        name => "${clientName}-${whichGFS}-CopyPool",
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+        volume_retention => '365 days',
+        maximum_volume_bytes => '50G',
+	maximum_volume_jobs => '100',
+        maximum_volumes => '100',
+        label_format => '${Pool}-${NumVols}',
+        storage => "File-${clientName}-${whichGFS}-CopyPool",
+     } 
+
+     # Used to copy jobs to a remote storage daemon
+     # from the local director.
+     bareos::director::storage{"File-${clientName}-${whichGFS}-CopyPool":
+        name => "File-${clientName}-${whichGFS}-CopyPool",
+	address => "bareOSremoteSD",  # TODO: See if this works...
+	password => "storage_password",
+	sd_port => '9103',
+        device => "FileChgr-File-${clientName}-${whichGFS}-CopyPool",
+	media_type => "File4",
+	max_concurrent => "5", # Max Concurrent Jobs...
+     }
+}
 
 #
 #   file {$clientBackupPath:

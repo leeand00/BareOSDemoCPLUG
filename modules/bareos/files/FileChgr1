@@ -1,6 +1,6 @@
 Autochanger {
   Name = FileChgr1
-  Device = FileChgr1-Dev1, FileChgr1-Dev2
+  Device = FileChgr1-Dev1, FileChgr1-Dev2, FileChgr1-Dev3
   Changer Command = ""
   Changer Device = /dev/null
 }
@@ -8,7 +8,7 @@ Autochanger {
 Device {
   Name = FileChgr1-Dev1
   Media Type = File1
-  Archive Device = /mnt/backup
+  Archive Device = /mnt/backup/bareOSdirector
   LabelMedia = yes;
   Random Access = yes;
   AutomaticMount = yes;
@@ -20,7 +20,19 @@ Device {
 Device {
   Name = FileChgr1-Dev2
   Media Type = File1
-  Archive Device = /mnt/backup2
+  Archive Device = /mnt/backup/webserver
+  LabelMedia = yes;
+  Random Access = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+
+Device {
+  Name = FileChgr1-Dev3
+  Media Type = File1
+  Archive Device = /mnt/backup/bareOSremoteSD
   LabelMedia = yes;
   Random Access = yes;
   AutomaticMount = yes;
@@ -50,6 +62,60 @@ Device {
   Name = FileChgr2-Dev2
   Media Type = File4
   Archive Device = /mnt/backup4
+  LabelMedia = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  Maximum Concurrent Jobs = 5
+}
+
+# Monthly
+Autochanger {
+  Name = FileChgr-File-webserver-monthly-CopyPool
+  Device = FileChgr-File-webserver-monthly-CopyPool-Dev1
+  Changer Command = ""
+  Changer Device = /dev/null 
+}
+
+Device {
+  Name = FileChgr-File-webserver-monthly-CopyPool-Dev1
+  Media Type = File4
+  Archive Device = /mnt/backup/webserver/monthly
+  LabelMedia = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  Maximum Concurrent Jobs = 5
+}
+
+# Weekly
+Autochanger {
+  Name = FileChgr-File-webserver-weekly-CopyPool
+  Device = FileChgr-File-webserver-weekly-CopyPool-Dev1
+  Changer Command = ""
+  Changer Device = /dev/null 
+}
+
+Device {
+  Name = FileChgr-File-webserver-weekly-CopyPool-Dev1
+  Media Type = File4
+  Archive Device = /mnt/backup/webserver/weekly
+  LabelMedia = yes;
+  AutomaticMount = yes;
+  RemovableMedia = no;
+  Maximum Concurrent Jobs = 5
+}
+
+# Daily
+Autochanger {
+  Name = FileChgr-File-webserver-daily-CopyPool
+  Device = FileChgr-File-webserver-daily-CopyPool-Dev1
+  Changer Command = ""
+  Changer Device = /dev/null 
+}
+
+Device {
+  Name = FileChgr-File-webserver-daily-CopyPool-Dev1
+  Media Type = File4
+  Archive Device = /mnt/backup/webserver/daily
   LabelMedia = yes;
   AutomaticMount = yes;
   RemovableMedia = no;

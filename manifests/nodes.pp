@@ -8,14 +8,16 @@ node 'bareOSdirector' {
      # - This includes the database setup...
      include bareosdir 
 
+     # NOTE! I disabled this so I can test out the configuration of the copy jobs${clientName}-${whichGFS}-volnum-${NumVols}.
+     # 
      # Automatically set the time back to 30 DEC 2016 21:30:00...so that we have a fresh point to
      # test the backups with...you may want to comment this out after setup.
-     exec {'Setting Time':
-		command => 'sudo date -s "30 DEC 2016 21:30:00"',
-		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
-		cwd	=> '/home/vagrant',
-		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
-     }
+     #exec {'Setting Time':
+     #    	command => 'sudo date -s "30 DEC 2016 21:30:00"',
+     #		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
+     #		cwd	=> '/home/vagrant',
+     #		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
+     #}
 
 # We must stop this service so that
 # we can set the date when testing 
@@ -35,6 +37,11 @@ node 'bareOSdirector' {
 }
 
 node 'bareOSremoteSD' {
+
+	# bls and bextract for restoring from a dead director...
+	package {'bareos-tools':
+		ensure => installed,
+ 	}
 
 	class {'bareos':
 	      manage_client => true,
@@ -57,6 +64,7 @@ node 'bareOSremoteSD' {
 	      storage_password => "storage_password",
 	}
 
+
 	file {'/etc/bareos/storage.d/FileChgr1.conf':
 	     content => file("bareos/FileChgr1"),
 	     owner => bareos,
@@ -65,7 +73,7 @@ node 'bareOSremoteSD' {
 	}
 
 
-        file { [  '/mnt/backups', "/mnt/backup", "/mnt/backup2", "/mnt/backup3", "/mnt/backup4" ]:
+        file { [  '/mnt/backups', "/mnt/backup", "/mnt/backup/bareOSdirector", "/mnt/backup/webserver", "/mnt/backup/webserver/monthly", "/mnt/backup/webserver/weekly", "/mnt/backup/webserver/daily", "/mnt/backup/bareOSremoteSD", "/mnt/backup3", "/mnt/backup4" ]:
      	     ensure => 'directory',
              owner => bareos,
              group => bareos,

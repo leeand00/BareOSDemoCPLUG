@@ -1,10 +1,11 @@
-define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname) {
+define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $includeBackupCopyJobs) {
 
 
    # There should be a 1 job to 3 pools / storage / devices... 
 
    # Define a backup job for the GFS
    # TODO: Make the fileset variable and define it elsewhere...
+
    bareos::director::job {"${clientName}-job":
 	client => "${clientName}-fd",
 	fileset => "${clientName}-fs", # TODO: Figure out a way to modularize this...
@@ -15,7 +16,6 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname) {
         inc_backup_pool => "${clientName}-daily-pool",
 	job_schedule => "${clientName}-cycle-schedule",
    }
-
 
    # Define a client file daemon in the bareos director config
    bareos::director::client {"${clientName}-fd":
@@ -85,6 +85,7 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname) {
        clientName => $clientName,
        clientIpOrHostname => $clientIpOrHostname,
        backupBasePath => "/mnt/backups",
+       includeBackupCopyJobs => $includeBackupCopyJobs,
        gfsHash => $GFS,
    }
 
