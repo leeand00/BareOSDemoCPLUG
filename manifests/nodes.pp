@@ -12,12 +12,12 @@ node 'bareOSdirector' {
      # 
      # Automatically set the time back to 30 DEC 2016 21:30:00...so that we have a fresh point to
      # test the backups with...you may want to comment this out after setup.
-     #exec {'Setting Time':
-     #    	command => 'sudo date -s "30 DEC 2016 21:30:00"',
-     #		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
-     #		cwd	=> '/home/vagrant',
-     #		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
-     #}
+     exec {'Setting Time':
+         	command => 'sudo date -s "30 DEC 2016 21:30:00"',
+     		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
+     		cwd	=> '/home/vagrant',
+     		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
+     }
 
 # We must stop this service so that
 # we can set the date when testing 
@@ -37,6 +37,10 @@ node 'bareOSdirector' {
 }
 
 node 'bareOSremoteSD' {
+
+        # Include the setup of the bareos-dir,
+        # - This includes the database setup...
+        #include bareossd
 
 	# bls and bextract for restoring from a dead director...
 	package {'bareos-tools':
@@ -65,20 +69,58 @@ node 'bareOSremoteSD' {
 	}
 
 
-	file {'/etc/bareos/storage.d/FileChgr1.conf':
-	     content => file("bareos/FileChgr1"),
-	     owner => bareos,
- 	     group => bareos,
-             mode => 660,
-	}
-
-
-        file { [  '/mnt/backups', "/mnt/backup", "/mnt/backup/bareOSdirector", "/mnt/backup/webserver", "/mnt/backup/webserver/monthly", "/mnt/backup/webserver/weekly", "/mnt/backup/webserver/daily", "/mnt/backup/bareOSremoteSD", "/mnt/backup3", "/mnt/backup4" ]:
-     	     ensure => 'directory',
-             owner => bareos,
-             group => bareos,
-             mode  => 660,
-        }
+	include bareossd
+#
+#        bareos::storage::autochanger {'FileChgr1': 
+#	      name => 'FileChgr1',
+#              device => 'FileChgr1-Dev1, FileChgr1-Dev2, FileChgr1-Dev3',
+#  	      changer_command => '',
+#	      changer_device => '/dev/null',
+#	}
+#
+#	bareos::storage::device {'FileChgr1-Dev1':
+#	      name => 'FileChgr1-Dev1',
+#	      media_type => 'File1',
+#	      archive_device => '/mnt/backup/bareOSdirector',
+#	      label_media => 'yes',
+#              random_access => 'yes',
+# 	      automatic_mount => 'yes',
+#	}
+#
+#	bareos::storage::device {'FileChgr1-Dev2':
+#	      name => 'FileChgr1-Dev2',
+#	      media_type => 'File1',
+#	      archive_device => '/mnt/backup/webserver',
+#	      label_media => 'yes',
+#              random_access => 'yes',
+# 	      automatic_mount => 'yes',
+#	}
+#
+#	bareos::storage::device {'FileChgr1-Dev3':
+#	      name => 'FileChgr1-Dev3',
+#	      media_type => 'File1',
+#	      archive_device => '/mnt/backup/bareOSremoteSD',
+#	      label_media => 'yes',
+#              random_access => 'yes',
+# 	      automatic_mount => 'yes',
+#	}
+#
+#
+#	file {'/etc/bareos/storage.d/FileChgr1.conf':
+#	     ensure => 'absent',
+#	     content => file("bareos/FileChgr1"),
+#	     owner => bareos,
+# 	     group => bareos,
+#             mode => 660,
+#	}
+#
+#
+#        file { [  '/mnt/backups', "/mnt/backup", "/mnt/backup/bareOSdirector", "/mnt/backup/webserver", "/mnt/backup/webserver/monthly", "/mnt/backup/webserver/weekly", "/mnt/backup/webserver/daily", "/mnt/backup/bareOSremoteSD", "/mnt/backup3", "/mnt/backup4" ]:
+#     	     ensure => 'directory',
+#             owner => bareos,
+#             group => bareos,
+#             mode  => 660,
+#        }
 
 }
 

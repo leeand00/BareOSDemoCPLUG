@@ -128,6 +128,7 @@ Vagrant.configure(2) do |config|
          puppet.manifests_path="manifests"
          puppet.manifest_file="site.pp"
          puppet.module_path="modules"
+         puppet.options="--hiera_config /vagrant/hieradata/hiera.yaml"
       end
   end
 

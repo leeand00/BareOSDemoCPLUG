@@ -1,9 +1,29 @@
 github_username: 'aleer'
 github_email: 'leeand00@hotmail.com'
+# Defines GFS19 backup days, used for creating backups
+# and autochangers...
 gfs19:
         g: 'monthly'
         f: 'weekly'
         s: 'daily'
+bareOSremoteSD_AutoChangerBasePath: '/mnt/backup'
+bareOSremoteSD_DevConfig:
+         webserver:
+                 value: 
+                        - 'Dev1'
+                        - 'Dev2'
+         bareOSremoteSD:
+                value: 
+                        - 'Dev1'
+#        autochangerBasePath: '/mnt/backup'
+#        autochangerDevices:
+#                webserver: 
+#                        Dev1: 'Dev1'
+# Note that this will be defined above in the GFS19.
+#        autochangers:
+#                m: 'monthly'
+#                w: 'weekly'
+#                d: 'daily'
 test_1:
         name_a: 
                 message: 'NameA'
