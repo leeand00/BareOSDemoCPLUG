@@ -1,6 +1,0 @@
-JobId,Name,Client,StartDate,StartTime,Type,Level,JobFiles,JobBytes,JobStatus
-1,webserver-job,webserver-fd,2017-01-02,22:00:02,B,F,2063,62790513,T
-2,webserver-job,webserver-fd,2017-01-03,22:00:02,B,D,2064,62844912,T
-3,webserver-job,webserver-fd,2017-01-04,22:00:02,B,D,2062,62780769,T
-4,webserver-job,webserver-fd,2017-01-05,22:00:02,B,D,2041,62409316,T
-5,webserver-job,webserver-fd,2017-01-06,22:00:02,B,F,2067,62873878,T

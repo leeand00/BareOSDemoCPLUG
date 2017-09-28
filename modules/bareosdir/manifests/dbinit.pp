@@ -80,4 +80,24 @@ class bareosdir::dbinit {
 	require => Package["bareos-database-mysql"],
      }
 
+     # Create the directory for the query.sql file.
+     file{'/etc/bareos/scripts':
+	ensure => directory,
+	owner => bareos,
+	group => bareos,
+	mode => 660,
+     }
+
+     
+     # Create a file with some SQL queries for finding out about your volumes etc...
+     # Found this file here: https://github.com/bareos/bareos/blob/master/src/dird/query.sql
+     file{'/etc/bareos/scripts/query.sql':
+	content => file('bareosdir/query.sql'),
+	ensure => file,
+	owner => bareos,
+	group => bareos,
+	mode => 660,
+	require => [File['/etc/bareos/scripts']],
+     }
+
 }

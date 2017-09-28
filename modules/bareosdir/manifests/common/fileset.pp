@@ -23,6 +23,11 @@ class bareosdir::common::fileset {
         exclude => ['/var/lib/bareos', '/var/lib/bareos/storage', '/proc', '/tmp', '.journal', '.fsck'],
     }
 
+     # Empty fileset for Backup Copy Jobs...
+     bareos::director::fileset{'EmptyCopyToTape':
+	name => 'EmptyCopyToTape',
+     }
+
      # Fileset for self testing
      bareos::director::fileset{'SelfTest':
 	name => 'SelfTest',

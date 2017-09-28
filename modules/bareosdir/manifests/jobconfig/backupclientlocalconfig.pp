@@ -7,6 +7,12 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
 
     # Obtain the label of the object from the object...
     $whichGFS = $whichGFSobj['gfs_obj_label']
+
+    if $includeBackupCopyJobs == true {
+       $whichCopyJobDays = $whichGFSobj['copy_job_schedule_days']
+       $whichCopyJobTime = $whichGFSobj['copy_job_schedule_time']
+    }
+    
  
     notify {"${name}_notify":
 	message => "${whichGFS}"
@@ -87,8 +93,18 @@ if $includeBackupCopyJobs == true {
         jobdef => "DefaultJob",
         pool => "${clientName}-${whichGFS}-pool",
 	storage => "File-${clientName}-${whichGFS}-CopyPool",
-   	selection_type => "PoolUncopiedJobs",
+	job_schedule => "${clientName}-${whichGFS}-cycle-schedule-copypool",   
+	selection_type => "PoolUncopiedJobs",
    }
+ 
+   bareos::director::schedule{"${clientName}-${whichGFS}-cycle-schedule-copypool":
+
+	  run_spec => [
+		       # ------------------------------------------------------------------- 
+		       # Copy Job Schedule
+		       ['Full', "Pool=${clientName}-${whichGFS}-pool NextPool=${clientName}-${whichGFS}-CopyPool ${whichCopyJobDays}", "${whichCopyJobTime}"], # 12pm (noon)
+	      ],
+	}
 
      # Copy Job off-site copy destination pools
      bareos::director::pool{"${clientName}-${whichGFS}-CopyPool":

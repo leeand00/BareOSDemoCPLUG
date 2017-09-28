@@ -1,0 +1,110 @@
+Tue Jan  3 12:00:39 UTC 2017
+---------------------------------
+Wed Jan  4 12:00:39 UTC 2017
+---------------------------------
+Thu Jan  5 12:00:39 UTC 2017
+---------------------------------
+Fri Jan  6 12:00:39 UTC 2017
+---------------------------------
+Sat Jan  7 12:00:38 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Sun Jan  8 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Mon Jan  9 12:00:42 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Tue Jan 10 12:00:38 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Wed Jan 11 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Thu Jan 12 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Fri Jan 13 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Sat Jan 14 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
+|    28 | webserver-job | webserver-weekly-CopyPool-0  | F     | T         |       2 | Append    | NA             | Friday    | 2017-01-13 22:00:02 |  2030 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+---------------------------------
+Sun Jan 15 12:00:39 UTC 2017
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+| JobID | JobName       | VolumeName                   | Level | JobStatus | WeekNum | VolStatus | VolRecycleTime | DayOfWeek | StartTime           | Files | GB    |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+|     9 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:00 |  2030 | 0.058 |
+|    11 | webserver-job | webserver-monthly-CopyPool-0 | F     | T         |       1 | Append    | NA             | Friday    | 2017-01-06 22:00:02 |  2030 | 0.058 |
+|    14 | webserver-job | webserver-daily-CopyPool-0   | F     | T         |       1 | Append    | NA             | Monday    | 2017-01-02 22:00:04 |  2030 | 0.058 |
+|    16 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Tuesday   | 2017-01-03 22:00:02 |  2029 | 0.058 |
+|    18 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Wednesday | 2017-01-04 22:00:02 |  2029 | 0.058 |
+|    20 | webserver-job | webserver-daily-CopyPool-0   | D     | T         |       1 | Append    | NA             | Thursday  | 2017-01-05 22:00:02 |  2029 | 0.058 |
+|    28 | webserver-job | webserver-weekly-CopyPool-0  | F     | T         |       2 | Append    | NA             | Friday    | 2017-01-13 22:00:02 |  2030 | 0.058 |
++-------+---------------+------------------------------+-------+-----------+---------+-----------+----------------+-----------+---------------------+-------+-------+
+Exiting due to interrupt.
