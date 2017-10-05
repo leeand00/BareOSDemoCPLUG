@@ -1,12 +1,13 @@
-JobID,JobName,VolumeName,Level,JobStatus,WeekNum,VolStatus,VolRecycleTime,DayOfWeek,StartTime,Files,GB
-1,webserver-job,webserver-monthly-volnum-0,F,T,1,Used,2017-12-30 22:00:03,Monday,2017-01-02 22:00:00,2030,0.058
-6,webserver-job,webserver-monthly-volnum-1,F,T,1,Append,NA,Friday,2017-01-06 22:00:02,2030,0.058
-13,webserver-job,webserver-weekly-volnum-0,F,T,2,Used,2017-02-10 22:00:05,Friday,2017-01-13 22:00:02,2030,0.058
-16,webserver-job,webserver-daily-volnum-0,D,T,3,Used,2017-01-28 22:00:05,Monday,2017-01-16 22:00:03,2027,0.058
-17,webserver-job,webserver-daily-volnum-0,D,T,3,Used,2017-01-28 22:00:05,Tuesday,2017-01-17 22:00:02,2027,0.058
-18,webserver-job,webserver-daily-volnum-0,D,T,3,Used,2017-01-28 22:00:05,Wednesday,2017-01-18 22:00:02,2027,0.058
-19,webserver-job,webserver-daily-volnum-0,D,T,3,Used,2017-01-28 22:00:05,Thursday,2017-01-19 22:00:02,2027,0.058
-20,webserver-job,webserver-weekly-volnum-1,F,T,3,Append,NA,Friday,2017-01-20 22:00:02,2030,0.058
-23,webserver-job,webserver-daily-volnum-1,D,T,4,Append,NA,Monday,2017-01-23 22:00:03,2027,0.058
-24,webserver-job,webserver-daily-volnum-1,D,T,4,Append,NA,Tuesday,2017-01-24 22:00:02,2027,0.058
-25,webserver-job,webserver-daily-volnum-1,D,T,4,Append,NA,Wednesday,2017-01-25 22:00:02,2027,0.058
+JobID,JobName,VolumeName,Level,JobStatus,WeekNum,VolStatus,VolUseEnd,VolRecycleTime,DayOfWeek,StartTime,Files,GB
+14,webserver-job,webserver-monthly-volnum-0,F,T,1,Append,2017-01-09 20:00:00,NA,Friday,2017-01-06 22:00:00,2030,0.058
+113,webserver-job,webserver-weekly-volnum-0,F,T,2,Used,NA,2017-02-10 22:00:02,Friday,2017-01-13 22:00:00,2030,0.058
+128,webserver-job,webserver-daily-volnum-1,D,T,3,Used,NA,2017-01-28 22:00:04,Monday,2017-01-16 22:00:00,2029,0.058
+159,webserver-job,webserver-daily-volnum-1,D,T,3,Used,NA,2017-01-28 22:00:04,Tuesday,2017-01-17 22:00:00,2029,0.058
+194,webserver-job,webserver-daily-volnum-1,D,T,3,Used,NA,2017-01-28 22:00:04,Wednesday,2017-01-18 22:00:00,2029,0.058
+233,webserver-job,webserver-daily-volnum-1,D,T,3,Used,NA,2017-01-28 22:00:04,Thursday,2017-01-19 22:00:01,2029,0.058
+276,webserver-job,webserver-weekly-volnum-1,F,T,3,Used,NA,2017-02-17 22:00:03,Friday,2017-01-20 22:00:00,2030,0.058
+295,webserver-job,webserver-daily-volnum-0,D,T,4,Append,2017-01-27 22:00:01,NA,Monday,2017-01-23 22:00:01,2029,0.058
+326,webserver-job,webserver-daily-volnum-0,D,T,4,Append,2017-01-27 22:00:01,NA,Tuesday,2017-01-24 22:00:00,2029,0.058
+361,webserver-job,webserver-daily-volnum-0,D,T,4,Append,2017-01-27 22:00:01,NA,Wednesday,2017-01-25 22:00:00,2029,0.058
+400,webserver-job,webserver-daily-volnum-0,D,T,4,Append,2017-01-27 22:00:01,NA,Thursday,2017-01-26 22:00:01,2029,0.058
+443,webserver-job,webserver-weekly-volnum-2,F,T,4,Append,2017-01-30 20:00:00,NA,Friday,2017-01-27 22:00:00,2030,0.058

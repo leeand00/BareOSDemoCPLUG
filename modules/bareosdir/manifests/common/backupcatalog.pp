@@ -7,7 +7,7 @@ class bareosdir::common::backupcatalog {
 	level => 'Full',
         fileset => 'Catalog',
 	job_schedule => 'WeeklyCycle',
-
+	
 
         # This creates an ASCII copy of the catalog
         # Arguments to make_catalog_backup.pl are:
@@ -23,7 +23,9 @@ class bareosdir::common::backupcatalog {
 	# THIS IS FOR DISASTER RECOVERY OF THE BACKUP SERVER!
 	# This is from http://www.binarytides.com/linux-mail-command-examples/
 	# "2. Subject and Message in a single line"   
- 	write_bootstrap => "|/usr/bin/mail -s \\\"Bareos: Bootstrap file for Job ID:  %j\\\" 'helpdeskaleer@gmail.com' <<< 'helpdeskaleer@gmail.com",
+#goodone write_bootstrap => "|/usr/bin/mail -s \\\"Bareos: Bootstrap file for Job ID:  %j\\\" 'helpdeskaleer@gmail.com' <<< 'helpdeskaleer@gmail.com",
+ 	write_bootstrap => "|/usr/bin/mail -s \\\"Bareos: Bootstrap file for Job ID:  %j\\\" 'helpdeskaleer@gmail.com' '<<<' 'helpdeskaleer@gmail.com'",
+
 
         # NOTE: They also say you should write out one of these with every job that you run, 
         #       to avoid running bscan on disaster recovery.
@@ -37,6 +39,7 @@ class bareosdir::common::backupcatalog {
         # run after main backup
 	priority => '11',
      }
+
 
      # Fileset for backing up the bacula catalog:
      bareos::director::fileset{'Catalog':

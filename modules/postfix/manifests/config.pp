@@ -5,7 +5,7 @@ class postfix::config {
 	$email_host='smtp.gmail.com'
 	$email_host_port='587'
 	$src_hostname='bareOSdirector'
-	$auth_passwd='Log***REMOVED***'
+	$auth_passwd='***REMOVED***'
 
 	file {'/etc/postfix/sasl_passwd':
 		ensure => present,

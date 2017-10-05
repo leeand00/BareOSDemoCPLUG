@@ -8,11 +8,6 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
     # Obtain the label of the object from the object...
     $whichGFS = $whichGFSobj['gfs_obj_label']
 
-    if $includeBackupCopyJobs == true {
-       $whichCopyJobDays = $whichGFSobj['copy_job_schedule_days']
-       $whichCopyJobTime = $whichGFSobj['copy_job_schedule_time']
-    }
-    
  
     notify {"${name}_notify":
 	message => "${whichGFS}"
@@ -87,35 +82,19 @@ else
 }
 
 if $includeBackupCopyJobs == true {
-
-   bareos::director::job {"${clientName}-${whichGFS}-CopyJob":
-   	type => "Copy",
-        jobdef => "DefaultJob",
-        pool => "${clientName}-${whichGFS}-pool",
-	storage => "File-${clientName}-${whichGFS}-CopyPool",
-	job_schedule => "${clientName}-${whichGFS}-cycle-schedule-copypool",   
-	selection_type => "PoolUncopiedJobs",
-   }
  
-   bareos::director::schedule{"${clientName}-${whichGFS}-cycle-schedule-copypool":
-
-	  run_spec => [
-		       # ------------------------------------------------------------------- 
-		       # Copy Job Schedule
-		       ['Full', "Pool=${clientName}-${whichGFS}-pool NextPool=${clientName}-${whichGFS}-CopyPool ${whichCopyJobDays}", "${whichCopyJobTime}"], # 12pm (noon)
-	      ],
-	}
 
      # Copy Job off-site copy destination pools
      bareos::director::pool{"${clientName}-${whichGFS}-CopyPool":
         name => "${clientName}-${whichGFS}-CopyPool",
         type => 'Backup',
-        recycle => 'yes',
-        auto_prune => 'yes',
-        volume_retention => '365 days',
-        maximum_volume_bytes => '50G',
-	maximum_volume_jobs => '100',
-        maximum_volumes => '100',
+        recycle => $whichGFSobj['recycle'],
+        auto_prune => $whichGFSobj['auto_prune'],
+        volume_retention => $whichGFSobj['volume_retention'],
+        volume_use_duration => $whichGFSobj['volume_use_duration'],
+        maximum_volume_bytes => $whichGFSobj['maximum_volume_bytes'],
+	maximum_volume_jobs => $whichGFSobj['maximum_volume_jobs'],
+        maximum_volumes => $whichGFSobj['maximum_volumes'],
         label_format => '${Pool}-${NumVols}',
         storage => "File-${clientName}-${whichGFS}-CopyPool",
      } 

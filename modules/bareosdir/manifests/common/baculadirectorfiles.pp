@@ -21,8 +21,13 @@ class bareosdir::common::baculadirectorfiles {
      # Define the main nightly save backup job
      bareos::director::job {'BaculaDirectorDirFiles':
         name => 'BaculaDirectorDirFiles',
+	full_backup_pool => 'Monthly',
+	diff_backup_pool => 'Daily',
+	# inc_backup_pool => '',
         client => "${hostname}-fd",
         fileset => 'bacula_files_backup',
+	job_schedule => 'WeeklyCycle',
+	priority => '10',
      }
 
      # File Storage for ${hostname}-fd backup...
@@ -79,25 +84,100 @@ class bareosdir::common::baculadirectorfiles {
 #### Remote Backup Copy Job ####
 
      # Copy Backup Files to Remote Storage
-     bareos::director::job {'MonthlyBackupCopy':
-        name => 'MonthlyBackupCopy',
+     bareos::director::job {'BaculaDirectorDirFilesCopy':
+        name => 'BaculaDirectorDirFilesCopy',
         type => 'Copy',     # Copy the jobs from the local to the remote
-        pool => 'Monthly',  # Source Pool
-        storage => 'File2', # Destination Storage
+        pool => 'Scratch',  # Source Pool
+	job_schedule => 'WeeklyCycleCopy',
+        #storage => 'bareOSdirector-monthly-CopyPool-fileStorage', # Destination Storage
         selection_type => 'PoolUncopiedJobs',
+	priority => '12',  # Should run after BaculaDirectorDirFilesCopy and so
+			   # we set it to 12.
+     }
+
+
+
+     # Add the storage for the CopyJobs
+     # Used to copy jobs to a remote storage daemon
+     # from the local director.
+     bareos::director::storage{"bareOSdirector-monthly-CopyPool-fileStorage":
+        name => "bareOSdirector-monthly-CopyPool-fileStorage",
+	address => "bareOSremoteSD",  # TODO: See if this works...
+	password => "storage_password",
+	sd_port => '9103',
+        device => "FileChgr-File-bareOSdirector-monthly-CopyPool-Dev1",
+	media_type => "File4",
+	max_concurrent => "5", # Max Concurrent Jobs...
+     }
+
+
+     # Add the storage for the CopyJobs
+     # Used to copy jobs to a remote storage daemon
+     # from the local director.
+     bareos::director::storage{"bareOSdirector-weekly-CopyPool-fileStorage":
+        name => "bareOSdirector-weekly-CopyPool-fileStorage",
+	address => "bareOSremoteSD",  # TODO: See if this works...
+	password => "storage_password",
+	sd_port => '9103',
+        device => "FileChgr-File-bareOSdirector-weekly-CopyPool-Dev1",
+	media_type => "File4",
+	max_concurrent => "5", # Max Concurrent Jobs...
      }
 
      # Add the storage for the CopyJobs
      # Used to copy jobs to a remote storage daemon
      # from the local director.
-     bareos::director::storage{"File2":
-        name => "File2",
+     bareos::director::storage{"bareOSdirector-daily-CopyPool-fileStorage":
+        name => "bareOSdirector-daily-CopyPool-fileStorage",
 	address => "bareOSremoteSD",  # TODO: See if this works...
 	password => "storage_password",
 	sd_port => '9103',
-        device => "FileChgr2",
+        device => "FileChgr-File-bareOSdirector-daily-CopyPool-Dev1",
 	media_type => "File4",
 	max_concurrent => "5", # Max Concurrent Jobs...
      }
+
+#     bareos::director::job {'WeeklyBackupCopy':
+#        name => 'WeeklyBackupCopy',
+#        type => 'Copy',     # Copy the jobs from the local to the remote
+#        pool => 'Weekly',  # Source Pool
+#        storage => 'bareOSdirector-weekly-CopyPool-fileStorage', # Destination Storage
+#        selection_type => 'PoolUncopiedJobs',
+#     }
+#
+#     # Add the storage for the CopyJobs
+#     # Used to copy jobs to a remote storage daemon
+#     # from the local director.
+#     bareos::director::storage{"bareOSdirector-weekly-CopyPool-fileStorage":
+#        name => "bareOSdirector-weekly-CopyPool-fileStorage",
+#	address => "bareOSremoteSD",  # TODO: See if this works...
+#	password => "storage_password",
+#	sd_port => '9103',
+#        device => "FileChgr2",
+#	media_type => "File4",
+#	max_concurrent => "5", # Max Concurrent Jobs...
+#     }
+#
+#
+#     bareos::director::job {'DailyBackupCopy':
+#        name => 'DailyBackupCopy',
+#        type => 'Copy',     # Copy the jobs from the local to the remote
+#        pool => 'Daily',  # Source Pool
+#        storage => 'bareOSdirector-weekly-CopyPool-fileStorage', # Destination Storage
+#        selection_type => 'PoolUncopiedJobs',
+#     }
+#
+#     # Add the storage for the CopyJobs
+#     # Used to copy jobs to a remote storage daemon
+#     # from the local director.
+#     bareos::director::storage{"bareOSdirector-weekly-CopyPool-fileStorage":
+#        name => "bareOSdirector-weekly-CopyPool-fileStorage",
+#	address => "bareOSremoteSD",  # TODO: See if this works...
+#	password => "storage_password",
+#	sd_port => '9103',
+#        device => "FileChgr2",
+#	media_type => "File4",
+#	max_concurrent => "5", # Max Concurrent Jobs...
+#     }
 
 }

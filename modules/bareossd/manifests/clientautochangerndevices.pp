@@ -1,11 +1,13 @@
-define bareossd::hashdebug($clientName) {
-
-
+define bareossd::clientautochangerndevices($clientsHash, $basePath) {
+	
 	# Note: https://forge.puppet.com/puppetlabs/stdlib#prefix
 	#$result = prefix($value, $autochangerName)
 
-	notify {"${name}": message => $clientName, }
 
+	$whichClient = $clientsHash[$name]
+	$clientName = $whichClient['clientName']
+
+	notify {"${whichClient}-zyx": message => $clientName, }
 
 	$GFS = {
 		"s${clientName}" => {
@@ -37,44 +39,19 @@ define bareossd::hashdebug($clientName) {
 	$gfsKeys = keys($GFS)
 
 	# Create a directory for this clients backups..
-	file {"/mnt/backups/${clientName}":
+	file {"${basePath}/${clientName}":
 	     ensure => 'directory',
-	     owner => bareos,
+	     owner => vagrant,
 	     group => bareos,
 	     mode => 660,
-	     require => File["/mnt/backups"],
+	     require => File["${basePath}"],
 	}
 
-	# Create the directory for the archive...
-	file {"/mnt/backups":
-	     ensure => 'directory',
-	     owner => bareos,
-	     group => bareos,
-	     mode => 660,
-	}
 
 	bareossd::autochangerdevices{$gfsKeys:
 	   clientName => "${clientName}",
-	   backupBasePath => "/mnt/backups",
+	   backupBasePath => "${basePath}",
 	   gfsHash => $GFS,
-	   require => File["/mnt/backups"],
+	   require => File["${basePath}"],
 	}
-
-#	bareos::storage::device {$result:
-#	      media_type => 'File1',
-#	      archive_device => "/mnt/backup/${name}/${result}",
-#	      label_media => 'yes',
-#              random_access => 'yes',
-# 	      automatic_mount => 'yes',
-#	}
-	
-	#create_resources(bareossd::autochangerdevices, $result)
-
-	
-
-#	notify{"${configName}-oppw2":
-#		#message => "${configName}: ${autochangerBasePath}, ${autochangerDevices}",
-#		 message => "${configName}: ${autochangerBasePath}",
-#
-#	}
 }

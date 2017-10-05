@@ -1,7 +1,7 @@
 class bareosdir::common {
 
      class {'bareos':
-           manage_client => true,
+           manage_client => true, 
            manage_storage => true,
            manage_director => true,
            manage_console => true,

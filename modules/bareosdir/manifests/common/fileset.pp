@@ -23,6 +23,25 @@ class bareosdir::common::fileset {
         exclude => ['/var/lib/bareos', '/var/lib/bareos/storage', '/proc', '/tmp', '.journal', '.fsck'],
     }
 
+    bareos::director::fileset{'bareOSremoteSD-fs':
+	
+	
+	fstype => ['ext2', 'ext3', 'ext4', 'xfs', 'zfs', 'reiserfs', 'jfs', 'btrfs'], 
+        include => ['/etc', '/home'],
+
+	# TODO: Add /mnt/backups as a variable from somewhere else
+        exclude => ['/var/lib/bareos', '/var/lib/bareos/storage', '/mnt/backups', '/proc', '/tmp', '.journal', '.fsck'],
+    }
+
+    bareos::director::fileset{'bareOSdirector-fs':
+	
+	fstype => ['ext2', 'ext3', 'ext4', 'xfs', 'zfs', 'reiserfs', 'jfs', 'btrfs'], 
+        include => ['/etc', '/home'],
+
+        exclude => ['/var/lib/bareos', '/var/lib/bareos/storage', '/mnt/backups', '/proc', '/tmp', '.journal', '.fsck'],
+
+    }
+
      # Empty fileset for Backup Copy Jobs...
      bareos::director::fileset{'EmptyCopyToTape':
 	name => 'EmptyCopyToTape',

@@ -1,4 +1,4 @@
-define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $includeBackupCopyJobs) {
+define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $includeBackupCopyJobs, $jobPriority, $copyjobPriority) {
 
 
    # There should be a 1 job to 3 pools / storage / devices... 
@@ -13,9 +13,52 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
         # Define which pools (Full, Differential, Incremental) relate to this job.
 	full_backup_pool => "${clientName}-monthly-pool",
 	diff_backup_pool => "${clientName}-daily-pool",
-        inc_backup_pool => "${clientName}-daily-pool",
+        # inc_backup_pool => "${clientName}-daily-pool",
 	job_schedule => "${clientName}-cycle-schedule",
+	priority => $jobPriority, # Note that this should be a number lower than the 
+			 	  # backup copy job, since it should run before it, 
+			 	  # so that the backup copy job has something to copy immediately.
+				  # (it was 8)
    }
+
+
+if $includeBackupCopyJobs == true {
+
+   # There should be a 1 job to 3 pools / storage / devices
+
+   # Define a single job for the backup copy jobs
+   bareos::director::job {"${clientName}-CopyJob":
+   	type => "Copy",
+        jobdef => "DefaultJob",
+        pool => "Scratch",
+	full_backup_pool => "${clientName}-monthly-CopyPool",
+	diff_backup_pool => "${clientName}-daily-CopyPool",
+	#storage => "File-${clientName}-${whichGFS}-CopyPool",
+	job_schedule => "${clientName}-cp-cycle-schedule-copypool",   
+	selection_type => "PoolUncopiedJobs",
+	priority => $copyjobPriority, # Note this should be a number higher than the backup job
+  			              # so that it gets run after it, and copies over what was 
+                   		      # just backed up immediately.
+				      # (it was 9)
+
+			 # priority 10 should be the BareOSdirector backup...
+			 # priority 11 should be the Catalog backup (it should be the last thing that gets backed up) 
+   }
+
+   # Define a single schedule for the backup copy jobs
+   # (with three different backups)
+   bareos::director::schedule{"${clientName}-cp-cycle-schedule-copypool":
+
+	  run_spec => [
+		       # ------------------------------------------------------------------- 
+		       # Copy Job Schedule
+		       ['Full', "Pool=${clientName}-monthly-pool NextPool=${clientName}-monthly-CopyPool 1st friday", "22:00"], # 12pm (noon)
+		       ['Full', "Pool=${clientName}-weekly-pool NextPool=${clientName}-weekly-CopyPool 2nd-5th friday", "22:00"], # 12pm (noon)
+		       ['Differential', "Pool=${clientName}-daily-pool NextPool=${clientName}-daily-CopyPool monday-thursday", "22:00"], # 12pm (noon)
+	      ],
+	}
+
+}
 
    # Define a client file daemon in the bareos director config
    bareos::director::client {"${clientName}-fd":
@@ -49,13 +92,6 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
 		maximum_volume_jobs => '10',
 		maximum_volumes => '10',  # Should be multipled by Maximum Volume Bytes to make sure you don't
 					  # over fill the disk or KVM Logical Volume.
-		#copy_job_schedule_days => 'tuesday-saturday', # NOTE: Since this is GFS 19...we can't do this...
-							       # Because the volume is only marked Used after 
-							       # the following Monday...and thus during the first week there is 
-							       # NOTHING to copy on the daily...!!!!
-		copy_job_schedule_days => 'monday',            # So instead we'll do this on Monday...but the first one will not do anything.
-							       # The first Daily Copy Job will occur on the 9th or maybe the 16th...with GFS19
-		copy_job_schedule_time => '12:00',	
 	},
 	"g${clientName}" => {
 		gfs_obj_label => 'monthly',
@@ -69,8 +105,6 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
 						   # over fill the disk or KVM Logical Volume.
 						   # This was set to 10, but I believe since it's a monthly backup
 						   # it should be set to 12 at least.
-		copy_job_schedule_days => '1st saturday',
-		copy_job_schedule_time => '12:00',	
 	},
 	"f${clientName}" => {
 		gfs_obj_label => 'weekly',
@@ -81,9 +115,7 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
 		maximum_volume_bytes => '10G',
 		maximum_volume_jobs => '100',
 		maximum_volumes => '10',  # Should be multiplied by Maximum Volume Bytes to make sure you don't
-					 # over fill the disk or KVM Logical Volume.
-		copy_job_schedule_days => '2nd-5th saturday',
-		copy_job_schedule_time => '12:00',	
+					  # over fill the disk or KVM Logical Volume.
 	},
    }
 
@@ -101,12 +133,16 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
 
 # TODO: Setup remote backups...
 
+
+# TODO: Get the schedule ironed out...
+if $includeBackupCopyJobs == true {
+
 	bareos::director::schedule{"${clientName}-cycle-schedule":
 
 	  run_spec => [
 		       # BEGIN test of "first backup should be a full monthly backup...otherwise the differentials have nothing to restore from."
 		       # TODO: Make this the 1st Monday in JAN!!! IT WILL WORK BETTER!!!!
-		       ['Full', "Pool=${clientName}-monthly-pool NextPool=${clientName}-monthly-CopyPool  jan 2", '22:00'], 
+		       #['Full', "Pool=${clientName}-monthly-pool NextPool=${clientName}-monthly-CopyPool  jan 2", '22:00'], 
 		       # END test of "first backup should be a full monthly backup..."
 
 		       ['Differential', "Pool=${clientName}-daily-pool NextPool=${clientName}-daily-CopyPool monday-thursday", '22:00'], # 10pm
@@ -115,21 +151,21 @@ define bareosdir::jobconfig::backupclient($clientName, $clientIpOrHostname, $inc
 	      ],
 	}
 
-# TODO: Get the schedule ironed out...
-if $includeBackupCopyJobs == true {
+} else {
 
+	bareos::director::schedule{"${clientName}-cycle-schedule":
 
-#	bareos::director::schedule{"${clientName}-cycle-schedule-copypool":
-#
-#	  run_spec => [
-#		       # ------------------------------------------------------------------- 
-#		       # Copy Job Schedule
-#		       ['Full', "Pool=${clientName}-daily-CopyPool tuesday-saturday", '12:00'], # 12pm (noon)
-#	       	       ['Full', "Pool=${clientName}-weekly-CopyPool 2nd-5th saturday", '12:00'], 
-#          	       ['Full', "Pool=${clientName}-monthly-CopyPool 1st saturday", '12:00'],
-#	      ],
-#	}
+	  run_spec => [
+		       # BEGIN test of "first backup should be a full monthly backup...otherwise the differentials have nothing to restore from."
+		       # TODO: Make this the 1st Monday in JAN!!! IT WILL WORK BETTER!!!!
+		       #['Full', "Pool=${clientName}-monthly-pool  jan 2", '22:00'], 
+		       # END test of "first backup should be a full monthly backup..."
 
+		       ['Differential', "Pool=${clientName}-daily-pool monday-thursday", '22:00'], # 10pm
+	       	       ['Full', "Pool=${clientName}-weekly-pool  2nd-5th friday", '22:00'], 
+		       ['Full', "Pool=${clientName}-monthly-pool 1st friday", '22:00'],
+	      ],
+	}
 } 
 
 

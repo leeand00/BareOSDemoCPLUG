@@ -88,7 +88,7 @@ class bareosdir::common::pools {
                                                #       since it's stored elsewhere in the volume meta data.
 				    	       #       Should craete files named "monthly-1", "monthly-2", etc..
 	storage => 'bareOSdirector_FileStorage',
-        next_pool => 'MonthlyCopyPool',  # The destination pool for the Monthly Copy...for Copy Jobs
+        #next_pool => 'MonthlyCopyPool',  # The destination pool for the Monthly Copy...for Copy Jobs
      }
 
 # Off-site Backup Pools
@@ -142,19 +142,47 @@ class bareosdir::common::pools {
      	storage => 'bareOSremoteSD' # Set to use offsite storage...
      }
 
-# Copy Job off-site copy destination pools
+#  Copy Job off-site copy destination pools
      bareos::director::pool{'MonthlyCopyPool':
         name => 'MonthlyCopyPool',
         type => 'Backup',
         recycle => 'yes',
         auto_prune => 'yes',
-        volume_retention => '365 days',
+	volume_use_duration => '70 hours',
+        volume_retention => '362 days',
         maximum_volume_bytes => '50G',
 	maximum_volume_jobs => '100',
         maximum_volumes => '100',
         label_format => '${Pool}-${NumVols}',
-        storage => 'File2'
+        storage => 'bareOSdirector-monthly-CopyPool-fileStorage'
      }    
 
+     bareos::director::pool{'WeeklyCopyPool':
+        name => 'WeeklyCopyPool',
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+	volume_use_duration => '70 hours',
+        volume_retention => '28 days',
+        maximum_volume_bytes => '50G',
+	maximum_volume_jobs => '100',
+        maximum_volumes => '100',
+        label_format => '${Pool}-${NumVols}',
+        storage => 'bareOSdirector-weekly-CopyPool-fileStorage'
+    }
 
+     bareos::director::pool{'DailyCopyPool':
+        name => 'DailyCopyPool',
+        type => 'Backup',
+        recycle => 'yes',
+        auto_prune => 'yes',
+	volume_use_duration => '4 days',
+        volume_retention => '9 days',
+        maximum_volume_bytes => '50G',
+	maximum_volume_jobs => '100',
+        maximum_volumes => '100',
+        label_format => '${Pool}-${NumVols}',
+        storage => 'bareOSdirector-daily-CopyPool-fileStorage'
+    }
+   
 }
