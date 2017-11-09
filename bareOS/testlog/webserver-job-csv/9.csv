@@ -1,7 +1,2 @@
 JobID,JobName,VolumeName,Level,JobStatus,WeekNum,VolStatus,VolUseEnd,VolRecycleTime,DayOfWeek,StartTime,Files,GB
-14,webserver-job,webserver-monthly-volnum-0,F,T,1,Append,2017-01-09 20:00:00,NA,Friday,2017-01-06 22:00:00,2030,0.058
-29,webserver-job,webserver-daily-volnum-0,D,T,2,Append,2017-01-13 22:00:00,NA,Monday,2017-01-09 22:00:00,2029,0.058
-44,webserver-job,webserver-daily-volnum-0,D,T,2,Append,2017-01-13 22:00:00,NA,Tuesday,2017-01-10 22:00:00,2029,0.058
-63,webserver-job,webserver-daily-volnum-0,D,T,2,Append,2017-01-13 22:00:00,NA,Wednesday,2017-01-11 22:00:00,2029,0.058
-86,webserver-job,webserver-daily-volnum-0,D,T,2,Append,2017-01-13 22:00:00,NA,Thursday,2017-01-12 22:00:00,2029,0.058
-113,webserver-job,webserver-weekly-volnum-0,F,T,2,Append,2017-01-16 20:00:00,NA,Friday,2017-01-13 22:00:00,2030,0.058
+1,webserver-job,webserver-weekly-volnum-0,F,T,52,Append,2017-01-02 20:00:00,NA,Friday,2016-12-30 22:00:00,2029,0.058
