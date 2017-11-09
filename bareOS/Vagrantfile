@@ -7,7 +7,7 @@
 #       bareos machines.
 #       then the machines are managed using the puppet_server after that.
 
-# Setup the Puppet Client (bareos)
+# Setup the Puppet Master (bareos)
 $puppetServerScript = <<SCRIPT
 sudo wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb
 sudo wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.tar.gz
@@ -59,7 +59,8 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: 'shellscripts/disabletimesync.sh'
 
   config.vm.provider "virtualbox" do |vb|
-      vb.cpus = 2
+      vb.cpus = 1    # WARN: THIS IS NEW
+      vb.memory = 512 # WARN: THIS IS NEW
       #vb.gui = true
   end
   
@@ -68,7 +69,7 @@ Vagrant.configure(2) do |config|
 
   #config.vm.provision :hostmanager
 
-  config.ssh.insert_key = false
+  #config.ssh.insert_key = false
   #config.ssh.private_key_path = "/mnt/vm_lab/vagrant_box_storage/.vagrant.d/insecure_private_key"
   config.ssh.forward_agent = true
 
