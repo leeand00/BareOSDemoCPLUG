@@ -1,6 +1,8 @@
 # BareOS Demo for the Harrisburg CPLUG
 ## Andrew J. Leer
 
+Note that this requires a VT-x CPU for 64-bit virtualization.
+
 The updateTimesNWeeks.sh script is there to test the GFS setup and output the results to /testlog
 
 1. This was tested with VirtualBox 5.0.40_Ubuntu r11530 and Vagrant 1.8.1
