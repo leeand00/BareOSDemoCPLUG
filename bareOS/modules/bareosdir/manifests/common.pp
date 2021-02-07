@@ -12,9 +12,9 @@ class bareosdir::common {
 	   client_template => 'bareos/bareos-fd.conf.erb',
            console_template => 'bareos/bconsole.conf.erb',
 
-           client_address => $ipaddress_eth2,
-           storage_address => $ipaddress_eth2,
-           director_address => $ipaddress_eth2,
+           client_address => $facts['networking']['interfaces']['eth0']['ip'],
+           storage_address => $facts['networking']['interfaces']['eth0']['ip'],
+           director_address => $facts['networking']['interfaces']['eth0']['ip'],
 
            version => '16.2.4-12.1',
            

@@ -16,7 +16,7 @@
 #
 class bareos::repository inherits bareos {
 
-  case ['os']['name'] {
+  case $facts['os']['name'] {
 
 #    redhat,centos,fedora,Scientific,OracleLinux: {
 #      file { 'bareos.repo':
