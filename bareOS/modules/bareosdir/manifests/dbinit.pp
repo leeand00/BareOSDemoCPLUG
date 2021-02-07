@@ -85,7 +85,7 @@ class bareosdir::dbinit {
 	ensure => directory,
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
      }
 
      
@@ -96,7 +96,7 @@ class bareosdir::dbinit {
 	ensure => file,
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
 	require => [File['/etc/bareos/scripts']],
      }
 
