@@ -23,7 +23,7 @@ class bareosdir::dbinit {
        ensure => 'directory',
        owner => bareos,
        group => bareos,
-       mode  => 660,
+       mode  => '660',
      }
 
 
