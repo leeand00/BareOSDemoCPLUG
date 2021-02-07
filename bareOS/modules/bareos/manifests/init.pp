@@ -285,7 +285,7 @@ class bareos (
   }
 
   ### Include custom class if $my_class is set
-  if $bareos::my_class {
-    include $bareos::my_class
-  }
+#  if $bareos::my_class {
+#    include $bareos::my_class
+#  }
 }
