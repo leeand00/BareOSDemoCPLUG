@@ -60,7 +60,7 @@ class bareos::params {
   ## Bareos client variables
   $client_name     = "${::fqdn}-fd"
   $client_port     = '9102'
-  $client_address  = $::ipaddress
+  $client_address  = $facts['ipaddress']
   $client_password = ''
   $client_max_concurrent = ''
 
@@ -90,7 +90,7 @@ class bareos::params {
   ## Bareos director variables
   $director_name              = "${::fqdn}-dir"
   $director_port              = '9101'
-  $director_address           = $::ipaddress
+  $director_address           = $facts['ipaddress']
   $director_max_concurrent    = '30'
   $director_password          = ''
   $director_configs_dir = "${bareos::params::config_dir}/director.d"
@@ -117,7 +117,7 @@ class bareos::params {
 
   ## Bareos storage variables
   $storage_name           = "${::fqdn}-sd"
-  $storage_address        = $::ipaddress
+  $storage_address        = $facts['ipaddress']
   $storage_port           = '9103'
   $storage_max_concurrent = '30'
   $storage_password       = ''
@@ -238,11 +238,11 @@ class bareos::params {
   ### General module variables that can have a site or per module default
   $monitor = false
   $monitor_tool = ''
-  $monitor_target = $::ipaddress
+  $monitor_target = $facts['ipaddress']
   $firewall = false
   $firewall_tool = ''
   $firewall_src = '0.0.0.0/0'
-  $firewall_dst = $::ipaddress
+  $firewall_dst = $facts['ipaddress']
   $puppi = false
   $puppi_helper = 'standard'
   $debug = false

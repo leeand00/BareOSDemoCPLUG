@@ -5,7 +5,7 @@ describe 'has_interface_with function', :unless => ((fact('osfamily') == 'window
   describe 'success' do
     it 'has_interface_with existing ipaddress' do
       pp = <<-EOS
-      $a = $::ipaddress
+      $a = $facts['ipaddress']
       $o = has_interface_with('ipaddress', $a)
       notice(inline_template('has_interface_with is <%= @o.inspect %>'))
       EOS

@@ -13,7 +13,7 @@
 #
 # [*client_address*]
 #   Address where the client listens. Can be specified as a hostname, fqdn or ip address.
-#   Default: "$::ipaddress"
+#   Default: "$facts['ipaddress']"
 #
 # [*client_password*]
 #   Client password required to connect to this host.
