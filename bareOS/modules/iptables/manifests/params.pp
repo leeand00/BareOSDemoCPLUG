@@ -6,7 +6,7 @@
 class iptables::params  {
 
   ### Definition of some variables used in the module
-  $osver = split($::operatingsystemrelease, '[.]')
+  $osver = split($facts['os']['release']['full'], '[.]')
   $osver_maj = string2int($osver[0])
 
   $enable_v6 = false
