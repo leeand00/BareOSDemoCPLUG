@@ -16,7 +16,7 @@ class bareos::params {
 
   ### Application related parameters
 
-  $repo_distro = $::operatingsystem ? {
+  $repo_distro = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/                          => 'Debian_7.0',
     /(?i:Ubuntu)/                                      => 'xUbuntu_12.04',
     /(?i:redhat|centos|scientific|oraclelinux|fedora)/ => "${::operatingsystem}_${::operatingsystemmajrelease}",
@@ -37,12 +37,12 @@ class bareos::params {
   $database_backend = 'mysql'
 
   ## Common variables
-  $config_dir = $::operatingsystem ? {
+  $config_dir = $facts['os']['name'] ? {
     default => '/etc/bareos',
   }
 
   $heartbeat_interval = '1 minute'
-  $working_directory  = $::operatingsystem ? {
+  $working_directory  = $facts['os']['name'] ? {
     default => '/var/lib/bareos'
   }
 
@@ -64,26 +64,26 @@ class bareos::params {
   $client_password = ''
   $client_max_concurrent = ''
 
-  $client_config_file = $::operatingsystem ? {
+  $client_config_file = $facts['os']['name'] ? {
     default => "${bareos::params::config_dir}/bareos-fd.conf",
   }
 
   $client_template = ''
   $client_source = ''
 
-  $client_pid_file = $::operatingsystem ? {
+  $client_pid_file = $facts['os']['name'] ? {
     default => "${bareos::params::working_directory}/bareos-fd.${bareos::params::client_port}.pid",
   }
 
-  $client_package = $::operatingsystem ? {
+  $client_package = $facts['os']['name'] ? {
     default                   => 'bareos-filedaemon',
   }
 
-  $client_service = $::operatingsystem ? {
+  $client_service = $facts['os']['name'] ? {
     default => 'bareos-fd',
   }
 
-  $client_process = $::operatingsystem ? {
+  $client_process = $facts['os']['name'] ? {
     default => 'bareos-fd',
   }
 
@@ -96,22 +96,22 @@ class bareos::params {
   $director_configs_dir = "${bareos::params::config_dir}/director.d"
   $director_clients_dir = "${bareos::params::config_dir}/clients.d"
 
-  $director_package = $::operatingsystem ? {
+  $director_package = $facts['os']['name'] ? {
     default                   => 'bareos-director',
   }
 
-  $director_config_file = $::operatingsystem ? {
+  $director_config_file = $facts['os']['name'] ? {
     default => '/etc/bareos/bareos-dir.conf',
   }
 
   $director_template = ''
   $director_source = ''
 
-  $director_service = $::operatingsystem ? {
+  $director_service = $facts['os']['name'] ? {
     default => 'bareos-dir',
   }
 
-  $director_process = $::operatingsystem ? {
+  $director_process = $facts['os']['name'] ? {
     default => 'bareos-dir',
   }
 
@@ -123,30 +123,30 @@ class bareos::params {
   $storage_password       = ''
   $storage_configs_dir =  "${bareos::params::config_dir}/storage.d"
 
-  $storage_config_file = $::operatingsystem ? {
+  $storage_config_file = $facts['os']['name'] ? {
     default => '/etc/bareos/bareos-sd.conf',
   }
 
-  $storage_package = $::operatingsystem ? {
+  $storage_package = $facts['os']['name'] ? {
     default                   => 'bareos-storage',
   }
 
   $storage_template = ''
   $storage_source = ''
 
-  $storage_service = $::operatingsystem ? {
+  $storage_service = $facts['os']['name'] ? {
     default => 'bareos-sd',
   }
 
-  $storage_process = $::operatingsystem ? {
+  $storage_process = $facts['os']['name'] ? {
     default => 'bareos-sd',
   }
 
-  $storage_device_owner = $::operatingsystem ? {
+  $storage_device_owner = $facts['os']['name'] ? {
     default => 'bareos',
   }
 
-  $storage_device_group = $::operatingsystem ? {
+  $storage_device_group = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'tape',
     default                   => 'disk',
   }
@@ -159,11 +159,11 @@ class bareos::params {
   ## Bareos console variables
   $console_password = ''
 
-  $console_package = $::operatingsystem ? {
+  $console_package = $facts['os']['name'] ? {
     default => 'bareos-bconsole',
   }
 
-  $console_config_file = $::operatingsystem ? {
+  $console_config_file = $facts['os']['name'] ? {
     default => '/etc/bareos/bconsole.conf',
   }
 
@@ -177,48 +177,48 @@ class bareos::params {
   $database_user              = 'bareos'
   $database_password          = ''
 
-  $service_status = $::operatingsystem ? {
+  $service_status = $facts['os']['name'] ? {
     default => true,
   }
 
-  $process_args = $::operatingsystem ? {
+  $process_args = $facts['os']['name'] ? {
     default => '',
   }
 
-  $process_user = $::operatingsystem ? {
+  $process_user = $facts['os']['name'] ? {
     default => 'bareos',
   }
 
-  $process_group = $::operatingsystem ? {
+  $process_group = $facts['os']['name'] ? {
     default => 'bareos',
   }
 
-  $config_file_mode = $::operatingsystem ? {
+  $config_file_mode = $facts['os']['name'] ? {
     default => '0644',
   }
 
-  $config_file_owner = $::operatingsystem ? {
+  $config_file_owner = $facts['os']['name'] ? {
     default => 'root',
   }
 
-  $config_file_group = $::operatingsystem ? {
+  $config_file_group = $facts['os']['name'] ? {
     default => 'root',
   }
 
-  $config_file_init = $::operatingsystem ? {
+  $config_file_init = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/bareos',
     default                   => '/etc/sysconfig/bareos',
   }
 
-  $data_dir = $::operatingsystem ? {
+  $data_dir = $facts['os']['name'] ? {
     default => '/etc/bareos',
   }
 
-  $log_dir = $::operatingsystem ? {
+  $log_dir = $facts['os']['name'] ? {
     default => '/var/log/bareos',
   }
 
-  $log_file = $::operatingsystem ? {
+  $log_file = $facts['os']['name'] ? {
     default => '/var/log/bareos/bareos.log',
   }
 

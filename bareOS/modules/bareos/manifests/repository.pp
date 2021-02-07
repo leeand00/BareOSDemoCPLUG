@@ -16,14 +16,14 @@
 #
 class bareos::repository inherits bareos {
 
-  case $::operatingsystem {
+  case ['os']['name'] {
 
-    redhat,centos,fedora,Scientific,OracleLinux: {
-      file { 'bareos.repo':
-        path    => '/etc/yum.repos.d/bareos.repo',
-        content => template('bareos/bareos.repo.erb'),
-      }
-    }
+#    redhat,centos,fedora,Scientific,OracleLinux: {
+#      file { 'bareos.repo':
+#        path    => '/etc/yum.repos.d/bareos.repo',
+#        content => template('bareos/bareos.repo.erb'),
+#      }
+#    }
 
     Debian,Ubuntu: {
       file { '/etc/apt/sources.list.d/bareos.list':
