@@ -36,7 +36,7 @@ class puppi::params  {
 # Directory where are placed the checks scripts
 # By default we use Nagios plugins
   $checkpluginsdir = $facts['os']['name'] ? {
-    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => $::architecture ? {
+    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => $facts['architecture'] ? {
       x86_64  => '/usr/lib64/nagios/plugins',
       default => '/usr/lib/nagios/plugins',
     },
