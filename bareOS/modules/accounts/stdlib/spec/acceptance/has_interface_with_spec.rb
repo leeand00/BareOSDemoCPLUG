@@ -30,7 +30,7 @@ describe 'has_interface_with function', :unless => ((fact('osfamily') == 'window
       if $osfamily == 'Solaris' or $osfamily == 'Darwin' {
         $a = 'lo0'
       }elsif $osfamily == 'windows' {
-        $a = $::kernelmajversion ? {
+        $a = $facts['kernelmajversion'] ? {
           /6\.(2|3|4)/ => 'Ethernet0',
           /6\.(0|1)/ => 'Local_Area_Connection',
           /5\.(1|2)/  => undef, #Broken current in facter
