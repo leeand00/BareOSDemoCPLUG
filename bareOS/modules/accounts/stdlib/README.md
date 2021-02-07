@@ -2206,7 +2206,7 @@ validate_re('one', [ '^two', '^three' ])
 To set the error message:
 
 ```puppet
-validate_re($::puppetversion, '^2.7', 'The $puppetversion fact value does not match 2.7')
+validate_re($facts['puppetversion'], '^2.7', 'The $puppetversion fact value does not match 2.7')
 ```
 
 To force stringification, use quotes:

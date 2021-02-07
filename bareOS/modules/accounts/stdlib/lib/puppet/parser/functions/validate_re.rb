@@ -21,7 +21,7 @@ module Puppet::Parser::Functions
 
     A helpful error message can be returned like this:
 
-        validate_re($::puppetversion, '^2.7', 'The $puppetversion fact value does not match 2.7')
+        validate_re($facts['puppetversion'], '^2.7', 'The $puppetversion fact value does not match 2.7')
 
     Note: Compilation will also abort, if the first argument is not a String. Always use
     quotes to force stringification:
