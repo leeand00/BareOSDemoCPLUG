@@ -6,7 +6,7 @@ describe 'validate_cmd function' do
     it 'validates a true command' do
       pp = <<-EOS
       $one = 'foo'
-      if $::osfamily == 'windows' {
+      if $facts['os']['family'] == 'windows' {
         $two = 'echo' #shell built-in
       } else {
         $two = '/bin/echo'
@@ -19,7 +19,7 @@ describe 'validate_cmd function' do
     it 'validates a fail command' do
       pp = <<-EOS
       $one = 'foo'
-      if $::osfamily == 'windows' {
+      if $facts['os']['family'] == 'windows' {
         $two = 'C:/aoeu'
       } else {
         $two = '/bin/aoeu'
@@ -32,7 +32,7 @@ describe 'validate_cmd function' do
     it 'validates a fail command with a custom error message' do
       pp = <<-EOS
       $one = 'foo'
-      if $::osfamily == 'windows' {
+      if $facts['os']['family'] == 'windows' {
         $two = 'C:/aoeu'
       } else {
         $two = '/bin/aoeu'

@@ -128,7 +128,7 @@ class puppi::extras {
   }
 
   ### Default Logs
-  case $::osfamily {
+  case $facts['os']['family'] {
 
     'Debian': {
       puppi::log { 'system':
