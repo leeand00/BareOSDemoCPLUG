@@ -11,9 +11,9 @@ DIST=Debian_8.0
 # DIST=xUbuntu_14.04 
 # DIST=xUbuntu_12.04 
  
-#DATABASE=postgresql 
+DATABASE=postgresql 
 # or 
-DATABASE=mysql 
+#DATABASE=mysql 
  
 URL=http://download.bareos.org/bareos/release/15.2/$DIST/ 
  
@@ -25,4 +25,4 @@ wget -q $URL/Release.key -O- | apt-key add -
  
 # install Bareos packages 
 apt-get update 
-#apt-get install bareos bareos-database-$DATABASE
+apt-get install bareos bareos-database-$DATABASE

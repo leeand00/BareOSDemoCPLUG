@@ -63,7 +63,7 @@ class bareosdir::common::baculadirectorfiles {
 
 	# Exclude bareos lib, and Catalog Backup Directory...
         # NOTE: The Catalog is backed up with the CatalogBackup, and not this.
-	exclude => ['/var/lib/bareos', '/var/lib/mysql'],
+	exclude => ['/var/lib/bareos', '/var/lib/postgresql'],
      }
 
 ######## Remote Storage Deamon ##############
