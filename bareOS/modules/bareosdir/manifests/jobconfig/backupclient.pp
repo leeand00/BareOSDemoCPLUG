@@ -74,7 +74,7 @@ if $includeBackupCopyJobs == true {
 	ensure => 'directory',
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
    }
 
    # Define what you want to name the following:
