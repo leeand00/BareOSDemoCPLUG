@@ -25,7 +25,7 @@ class bareosdir::common {
 	   database_user => 'root',
            database_password => 'turnkeyAvB12',
            database_name => 'bareos',
-           database_backend => 'mysql',
+           database_backend => 'postgresql',
 	   director_name => "${hostname}",
            default_jobdef => 'DefaultJob',
            noops => false,
@@ -34,10 +34,10 @@ class bareosdir::common {
      # Creates a catalog...
      bareos::director::catalog {'MyCatalog':
 		name => 'MyCatalog',
-                db_user => 'root',
+                db_user => 'bareos',
 		db_name => 'bareos',
 		db_password => 'turnkeyAvB12',
-                db_driver => 'mysql',
+                db_driver => 'postgresql',
      }
 
      bareos::director::messages{'standard':
