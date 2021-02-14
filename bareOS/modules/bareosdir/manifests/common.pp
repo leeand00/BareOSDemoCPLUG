@@ -16,7 +16,7 @@ class bareosdir::common {
            storage_address => $facts['networking']['interfaces']['eth0']['ip'],
            director_address => $facts['networking']['interfaces']['eth0']['ip'],
 
-           version => '16.2.4-12.1',
+           version => '20.0.0-1',
            
            console_password => '***REMOVED***',
       

@@ -93,7 +93,7 @@ class bareosdir::dbinit {
 
      file{'/etc/bareos/bareos-dir.d/catalog/MyCatalog.conf':
 	ensure => absent,
-	require => Package["bareos-database-postgresql"],
+	#require => Package["bareos-database-postgresql"],
      }
 
      # Create the directory for the query.sql file.

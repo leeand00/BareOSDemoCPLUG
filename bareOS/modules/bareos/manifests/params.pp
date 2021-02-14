@@ -17,14 +17,13 @@ class bareos::params {
   ### Application related parameters
 
   $repo_distro = $facts['os']['name'] ? {
-    /(?i:Debian|Ubuntu|Mint)/                          => 'Debian_7.0',
-    /(?i:Ubuntu)/                                      => 'xUbuntu_12.04',
+    /(?i:Debian|Ubuntu|Mint)/                          => "${::operatingsystem}_${::operatingsystemmajrelease}",
     /(?i:redhat|centos|scientific|oraclelinux|fedora)/ => "${::operatingsystem}_${::operatingsystemmajrelease}",
     default                                            => 'UNKNOWN',
   }
 
   # One of http://download.bareos.org/bareos/release/
-  $repo_flavour = 'latest'
+  $repo_flavour = '20'
 
   $manage_client   = true
   $manage_storage  = false
@@ -34,7 +33,7 @@ class bareos::params {
 
   # Database type
   # One of 'mysql', 'postgresql', 'sqlite'
-  $database_backend = 'mysql'
+  $database_backend = 'postgresql'
 
   ## Common variables
   $config_dir = $facts['os']['name'] ? {
