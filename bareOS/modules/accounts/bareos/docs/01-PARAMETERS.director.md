@@ -13,7 +13,7 @@
 #
 # [*director_address*]
 #   Address where the director listens. Can be specified as a hostname, fqdn or ip address.
-#   Default: $::ipaddress
+#   Default: $facts['ipaddress']
 #
 # [*director_max_concurrent*]
 #   Maximum number of concurrent connections this director accepts.

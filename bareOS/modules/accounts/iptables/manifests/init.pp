@@ -198,7 +198,7 @@ class iptables (
     default   => $iptables::content,
   }
 
-  case $::operatingsystem {
+  case $facts['os']['name'] {
     debian: { require iptables::debian }
     ubuntu: { require iptables::debian }
     default: { }

@@ -18,12 +18,12 @@ define bareosdir::jobconfig::backupclientlocalconfig($clientName, $clientIpOrHos
 	ensure => 'directory',
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
 	require => [File["${clientBackupPath}"]],
     }
    
    bareos::director::storage{"${clientName}-${whichGFS}-fileStorage":
-	address => $ipaddress_eth2,
+	address => $facts['networking']['interfaces']['eth0']['ip'],
 	device => "${clientName}-${whichGFS}-device",
 	media_type => 'File',
 	autochanger => 'yes',  # TODO: See if this is necessary

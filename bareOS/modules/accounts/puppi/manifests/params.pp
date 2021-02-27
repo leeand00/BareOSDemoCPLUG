@@ -35,20 +35,20 @@ class puppi::params  {
 # External tools
 # Directory where are placed the checks scripts
 # By default we use Nagios plugins
-  $checkpluginsdir = $::operatingsystem ? {
-    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => $::architecture ? {
+  $checkpluginsdir = $facts['os']['name'] ? {
+    /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => $facts['architecture'] ? {
       x86_64  => '/usr/lib64/nagios/plugins',
       default => '/usr/lib/nagios/plugins',
     },
     default                    => '/usr/lib/nagios/plugins',
   }
 
-  $package_nagiosplugins = $::operatingsystem ? {
+  $package_nagiosplugins = $facts['os']['name'] ? {
     /(?i:RedHat|CentOS|Scientific|Amazon|Linux|Fedora)/ => 'nagios-plugins-all',
     default                       => 'nagios-plugins',
   }
 
-  $package_mail = $::operatingsystem ? {
+  $package_mail = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/ => 'bsd-mailx',
     default           => 'mailx',
   }
@@ -58,7 +58,7 @@ class puppi::params  {
 # Mcollective paths
 # TODO: Add Paths for Puppet Enterprise:
 # /opt/puppet/libexec/mcollective/mcollective/
-  $mcollective = $::operatingsystem ? {
+  $mcollective = $facts['os']['name'] ? {
     debian  => '/usr/share/mcollective/plugins/mcollective',
     ubuntu  => '/usr/share/mcollective/plugins/mcollective',
     centos  => '/usr/libexec/mcollective/mcollective',
@@ -71,17 +71,17 @@ class puppi::params  {
 
 
 # Commands used in puppi info templates
-  $info_package_query = $::operatingsystem ? {
+  $info_package_query = $facts['os']['name'] ? {
     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => 'rpm -qi',
     /(?i:Ubuntu|Debian|Mint)/          => 'dpkg -s',
     default                    => 'echo',
   }
-  $info_package_list = $::operatingsystem ? {
+  $info_package_list = $facts['os']['name'] ? {
     /(?i:RedHat|CentOS|Scientific|Amazon|Linux)/ => 'rpm -ql',
     /(?i:Ubuntu|Debian|Mint)/                    => 'dpkg -L',
     default                                      => 'echo',
   }
-  $info_service_check = $::operatingsystem ? {
+  $info_service_check = $facts['os']['name'] ? {
     default => '/etc/init.d/',
   }
 

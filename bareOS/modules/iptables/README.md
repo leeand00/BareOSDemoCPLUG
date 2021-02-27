@@ -61,7 +61,7 @@ So a simple:
 
         class { 'iptables':
           config => 'file', # This is needed to activate file mode
-          source => [ "puppet:///modules/lab42/iptables/iptables-${hostname}" , "puppet:///modules/lab42/iptables/iptables" ], 
+          source => [ "puppet:///modules/lab42/iptables/iptables-${facts['hostname']}" , "puppet:///modules/lab42/iptables/iptables" ], 
         }
 
 

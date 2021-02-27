@@ -12,11 +12,11 @@ class bareosdir::common {
 	   client_template => 'bareos/bareos-fd.conf.erb',
            console_template => 'bareos/bconsole.conf.erb',
 
-           client_address => $ipaddress_eth2,
-           storage_address => $ipaddress_eth2,
-           director_address => $ipaddress_eth2,
+           client_address => $facts['networking']['interfaces']['eth0']['ip'],
+           storage_address => $facts['networking']['interfaces']['eth0']['ip'],
+           director_address => $facts['networking']['interfaces']['eth0']['ip'],
 
-           version => '16.2.4-12.1',
+           version => '20.0.0-1',
            
            console_password => '***REMOVED***',
       
@@ -25,8 +25,8 @@ class bareosdir::common {
 	   database_user => 'root',
            database_password => 'turnkeyAvB12',
            database_name => 'bareos',
-           database_backend => 'mysql',
-	   director_name => "${hostname}",
+           database_backend => 'postgresql',
+	   director_name => "${facts['hostname']}",
            default_jobdef => 'DefaultJob',
            noops => false,
      }
@@ -34,10 +34,10 @@ class bareosdir::common {
      # Creates a catalog...
      bareos::director::catalog {'MyCatalog':
 		name => 'MyCatalog',
-                db_user => 'root',
+                db_user => 'bareos',
 		db_name => 'bareos',
 		db_password => 'turnkeyAvB12',
-                db_driver => 'mysql',
+                db_driver => 'postgresql',
      }
 
      bareos::director::messages{'standard':

@@ -2206,7 +2206,7 @@ validate_re('one', [ '^two', '^three' ])
 エラーメッセージの設定方法:
 
 ```puppet
-validate_re($::puppetversion, '^2.7', 'The $puppetversion fact value does not match 2.7')
+validate_re($facts['puppetversion'], '^2.7', 'The $puppetversion fact value does not match 2.7')
 ```
 
 強制的に文字列化するには、クォートを使用してください:

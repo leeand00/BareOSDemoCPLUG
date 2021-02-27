@@ -6,7 +6,7 @@
 class iptables::params  {
 
   ### Definition of some variables used in the module
-  $osver = split($::operatingsystemrelease, '[.]')
+  $osver = split($facts['os']['release']['full'], '[.]')
   $osver_maj = string2int($osver[0])
 
   $enable_v6 = false
@@ -53,21 +53,21 @@ class iptables::params  {
 ## MODULE INTERNAL VARIABLES
 # (Modify to adapt to unsupported OSes)
 
-  $package = $::operatingsystem ? {
+  $package = $facts['os']['name'] ? {
     default => 'iptables',
   }
 
-  $service_status = $::operatingsystem ? {
+  $service_status = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/ => false,
     default                   => true,
   }
 
-  $service_status_cmd = $::operatingsystem ? {
+  $service_status_cmd = $facts['os']['name'] ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/bin/true',
     default                   => undef,
   }
 
-  case $::operatingsystem {
+  case $facts['os']['name'] {
     /(?i:Debian)/: {
       if ($osver_maj < 7) {
         # Squeeze or earlier
@@ -117,15 +117,15 @@ class iptables::params  {
     }
   }
 
-  $config_file_mode = $::operatingsystem ? {
+  $config_file_mode = $facts['os']['name'] ? {
     default => '0640',
   }
 
-  $config_file_owner = $::operatingsystem ? {
+  $config_file_owner = $facts['os']['name'] ? {
     default => 'root',
   }
 
-  $config_file_group = $::operatingsystem ? {
+  $config_file_group = $facts['os']['name'] ? {
     default => 'root',
   }
 

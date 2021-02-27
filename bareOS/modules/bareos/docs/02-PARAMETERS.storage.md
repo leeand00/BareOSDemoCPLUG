@@ -9,7 +9,7 @@
 #
 # [*storage_address*]
 #   Address where the storage listens. Can be specified as a hostname, fqdn or ip address.
-#   Default: $::ipaddress
+#   Default: $facts['ipaddress']
 #
 # [*storage_port*]
 #   Port where the storage listens

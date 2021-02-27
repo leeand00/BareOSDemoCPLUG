@@ -13,53 +13,68 @@ class bareosdir::dbinit {
 	ensure => installed,
      }
 
+     package{'postgresql':
+	ensure => installed,
+     }
+
+     #package{'bareos-database-postgresql':
+     #	ensure => installed,
+     #}
+
+     user{'postgres':
+	ensure => 'present',
+     }
+
      exec {'Adding user vagrant to bareos group':
 		command => 'sudo usermod -G vagrant,bareos vagrant',
 		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin',
 		cwd	=> '/home/vagrant',
      }
 
-     file { [  '/mnt/backups', "/mnt/backups/${hostname}" ]:
+     file { [  '/mnt/backups', "/mnt/backups/${facts['hostname']}" ]:
        ensure => 'directory',
        owner => bareos,
        group => bareos,
-       mode  => 660,
+       mode  => '660',
      }
 
 
-     # See: http://linuxpitstop.com/install-bareos-backup-solution-on-centos-7/
-     # This is done so that the scripts may run to install the database
-     # in the next three steps.
-     file {'/root/.my.cnf':
-	   content => "[client]\nhost=localhost\nuser=root\npassword=turnkeyAvB12",
-           owner => root,
-           group => root,
-           mode  => 660,           
-     }
-
-     # See: http://linuxpitstop.com/install-bareos-backup-solution-on-centos-7/
-     # This is done so that the scripts may run to install the database
-     # in the next three steps.
-     file {'/home/vagrant/.my.cnf':
-	   content => "[client]\nhost=localhost\nuser=root\npassword=turnkeyAvB12",
-           owner => vagrant,
-           group => vagrant,
-           mode  => 660           
-     }
+#     # See: http://linuxpitstop.com/install-bareos-backup-solution-on-centos-7/
+#     # This is done so that the scripts may run to install the database
+#     # in the next three steps.
+#     file {'/root/.my.cnf':
+#	   content => "[client]\nhost=localhost\nuser=root\npassword=turnkeyAvB12",
+#           owner => root,
+#           group => root,
+#           mode  => '660',           
+#     }
+#
+#     # See: http://linuxpitstop.com/install-bareos-backup-solution-on-centos-7/
+#     # This is done so that the scripts may run to install the database
+#     # in the next three steps.
+#     file {'/home/vagrant/.my.cnf':
+#	   content => "[client]\nhost=localhost\nuser=root\npassword=turnkeyAvB12",
+#           owner => vagrant,
+#           group => vagrant,
+#           mode  => '660',
+#     }
 
      exec {'Creating Database':
                 environment => ["db_name=bareos", "db_user=root", "HOME=/root"], # Need to set $HOME correctly: https://groups.google.com/d/msg/puppet-users/PBUGMq2KGBA/Z1mhm1lysWcJ 
 		command => 'create_bareos_database',
+                user    => 'postgres',
 		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/usr/lib/bareos/scripts',
 		cwd	=> '/usr/lib/bareos/scripts',
-		creates => '/var/lib/mysql/bareos',
-		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
-		require => [File["/root/.my.cnf"],File["/home/vagrant/.my.cnf"],Package["bareos-database-mysql"]]  # Make sure that bareos is installed before installing the packages...
+		#creates => '/var/lib/mysql/bareos',
+		returns => [0, 1, 3], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
+		#require => [File["/root/.my.cnf"],File["/home/vagrant/.my.cnf"],Package["bareos-database-postgresql"]]  # Make sure that bareos is installed before installing the packages...
+		require => [Package['postgresql'],User['postgres']]  # Make sure that bareos is installed before installing the packages...
      }
  
      exec {'Creating Tables':
 		environment => ["db_name=bareos", "db_user=root", "HOME=/root"],
 		command => 'make_bareos_tables',
+                user    => 'postgres',
 		path    => '/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/usr/lib/bareos/scripts',
 		cwd	=> '/usr/lib/bareos/scripts',
 		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
@@ -69,6 +84,7 @@ class bareosdir::dbinit {
      exec {'Granting Privileges':
 		environment => ["db_name=bareos", "db_user=root", "db_password=turnkeyAvB12", "db_driver=mysql",  "HOME=/root"],
 		command => 'grant_bareos_privileges',
+                user    => 'postgres',
 		path    => '/sbin/bin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/usr/lib/bareos/scripts',
 		cwd	=> '/usr/lib/bareos/scripts',
 		#returns => [0, 1], # https://serverfault.com/questions/450602/puppet-error-returned-1-instead-of-one-of-0
@@ -77,7 +93,7 @@ class bareosdir::dbinit {
 
      file{'/etc/bareos/bareos-dir.d/catalog/MyCatalog.conf':
 	ensure => absent,
-	require => Package["bareos-database-mysql"],
+	#require => Package["bareos-database-postgresql"],
      }
 
      # Create the directory for the query.sql file.
@@ -85,7 +101,7 @@ class bareosdir::dbinit {
 	ensure => directory,
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
      }
 
      
@@ -96,7 +112,7 @@ class bareosdir::dbinit {
 	ensure => file,
 	owner => bareos,
 	group => bareos,
-	mode => 660,
+	mode => '660',
 	require => [File['/etc/bareos/scripts']],
      }
 
