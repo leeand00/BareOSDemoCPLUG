@@ -31,7 +31,7 @@ class bareosdir::dbinit {
 		cwd	=> '/home/vagrant',
      }
 
-     file { [  '/mnt/backups', "/mnt/backups/${hostname}" ]:
+     file { [  '/mnt/backups', "/mnt/backups/${facts['hostname']}" ]:
        ensure => 'directory',
        owner => bareos,
        group => bareos,

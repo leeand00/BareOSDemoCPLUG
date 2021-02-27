@@ -6,10 +6,10 @@ class bareosdir::common::baculadirectorfiles {
         name => 'RestoreFiles',
 	job_schedule => '',
     	type => 'Restore',
-        client => "${hostname}-fd",
+        client => "${facts['hostname']}-fd",
         fileset => 'LinuxAll',
 	# If you're going to restore files, you should select the storage you're going to use.
-        # storage => "${hostname}_FileStorage",
+        # storage => "${facts['hostname']}_FileStorage",
         pool => 'Incremental',
         messages => 'standard',
         where => '/tmp/bareos-restores',
@@ -24,28 +24,28 @@ class bareosdir::common::baculadirectorfiles {
 	full_backup_pool => 'Monthly',
 	diff_backup_pool => 'Daily',
 	# inc_backup_pool => '',
-        client => "${hostname}-fd",
+        client => "${facts['hostname']}-fd",
         fileset => 'bacula_files_backup',
 	job_schedule => 'WeeklyCycle',
 	priority => '10',
      }
 
-     # File Storage for ${hostname}-fd backup...
+     # File Storage for ${facts['hostname']}-fd backup...
      # TODO: Rename this...
-     bareos::director::storage{"${hostname}_FileStorage":
-	name => "${hostname}_FileStorage",
+     bareos::director::storage{"${facts['hostname']}_FileStorage":
+	name => "${facts['hostname']}_FileStorage",
 	#address => $ipaddress_eth2,
         address => $facts['networking']['interfaces']['eth0']['ip'],
-	device => "${hostname}_filestorage_device",
+	device => "${facts['hostname']}_filestorage_device",
 	media_type => 'File',
 	autochanger => 'yes',
      }
 
      # The directors local file storage
-     bareos::storage::device {"${hostname}_filestorage_device":
+     bareos::storage::device {"${facts['hostname']}_filestorage_device":
 #       device_type => '',
         media_type => 'File',
-        archive_device => "/mnt/backups/${hostname}",
+        archive_device => "/mnt/backups/${facts['hostname']}",
         label_media => 'yes',
         random_access => 'yes',
         automatic_mount => 'yes',

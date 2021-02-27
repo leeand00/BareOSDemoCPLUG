@@ -1,8 +1,8 @@
 class bareosdir::common::fdclient {
 
      # Client (File Services) to backup
-     bareos::director::client {"${hostname}-fd":
-	name => "${hostname}-fd",
+     bareos::director::client {"${facts['hostname']}-fd":
+	name => "${facts['hostname']}-fd",
      # NOTE: If run in Virtualbox it probably uses
      #       a different interface because of the way
      #       the networking is used.  In this case

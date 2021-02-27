@@ -9,7 +9,7 @@ class bareosdir::common::pools {
 	maximum_volume_bytes => '50G',
 	maximum_volume_jobs => '100',
 	label_format => "Full-",
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
      }
 
      bareos::director::pool{'Differential':
@@ -20,7 +20,7 @@ class bareosdir::common::pools {
 	maximum_volume_bytes => '10G',
 	maximum_volume_jobs => '100',
 	label_format => "Differential-",
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
      }
 
 
@@ -32,7 +32,7 @@ class bareosdir::common::pools {
 	maximum_volume_bytes => '1G',
 	maximum_volume_jobs => '100',
 	label_format => "Incremental-",
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
      }
 
      bareos::director::pool{'Scratch':
@@ -54,7 +54,7 @@ class bareosdir::common::pools {
      	label_format => 'daily-${NumVols}',  # Note: There's no point in using the date variable here, 
                                              #       since it's stored elsewhere in the volume meta data.
 					     #       Should craete files named "daily-1", "daily-2", etc..
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
      }
 
      bareos::director::pool{'Weekly':
@@ -71,7 +71,7 @@ class bareosdir::common::pools {
      	label_format => 'weekly-${NumVols}',  # Note: There's no point in using the date variable here, 
                                              #       since it's stored elsewhere in the volume meta data.
 					     #       Should craete files named "weekly-1", "weekly-2", etc..
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
      }
 
      bareos::director::pool{'Monthly':
@@ -87,7 +87,7 @@ class bareosdir::common::pools {
      	label_format => 'monthly-${NumVols}',  # Note: There's no point in using the date variable here, 
                                                #       since it's stored elsewhere in the volume meta data.
 				    	       #       Should craete files named "monthly-1", "monthly-2", etc..
-	storage => 'bareOSdirector_FileStorage',
+	storage => "${facts['hostname']}_FileStorage",
         #next_pool => 'MonthlyCopyPool',  # The destination pool for the Monthly Copy...for Copy Jobs
      }
 

@@ -26,7 +26,7 @@ class bareosdir::common {
            database_password => 'turnkeyAvB12',
            database_name => 'bareos',
            database_backend => 'postgresql',
-	   director_name => "${hostname}",
+	   director_name => "${facts['hostname']}",
            default_jobdef => 'DefaultJob',
            noops => false,
      }

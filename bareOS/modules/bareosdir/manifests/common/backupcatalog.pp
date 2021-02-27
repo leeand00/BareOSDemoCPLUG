@@ -3,7 +3,7 @@ class bareosdir::common::backupcatalog {
      # Backup the catalog database (after the nightly save)
      bareos::director::job {'BackupCatalog':
         name => 'BackupCatalog',
-        client => "${hostname}-fd",
+        client => "${facts['hostname']}-fd",
 	level => 'Full',
         fileset => 'Catalog',
 	job_schedule => 'WeeklyCycle',

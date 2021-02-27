@@ -9,7 +9,7 @@ class bareosdir::common::jobdefs {
 	fileset => 'SelfTest', # Forces you to remeber that you need to define a fileset in your job.
         job_schedule => 'WeeklyCycle',
         # Note: I removed storage from the Default JobDef because it confuses people.
-	#storage => "${hostname}_FileStorage",
+	#storage => "${facts['hostname']}_FileStorage",
 	messages => 'standard',
 	pool => 'Daily',
 	priority => '10',
