@@ -4,7 +4,7 @@
 # define parameter 
 # 
  
-DIST=Debian_10 
+DIST=Debian_10
 # or 
 # DIST=Debian_7.0 
 # DIST=xUbuntu_16.04 
@@ -25,4 +25,4 @@ wget -q $URL/Release.key -O- | apt-key add -
  
 # install Bareos packages 
 apt-get update 
-apt-get install bareos bareos-database-$DATABASE
+#apt-get install bareos bareos-database-$DATABASE

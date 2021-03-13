@@ -68,6 +68,12 @@ if $includeBackupCopyJobs == true {
 	job_retention => '1 year',    # Should be equal to your maximum volume_retention (see the Monthly pool)
    }
 
+ 
+    # TODO:
+    # exec  "Runnin chatt -i on dir /mnt/backups/${clientName}":
+    #  
+    #
+    # }
 
     # Generates directories for storage of volumes
     file {"/mnt/backups/${clientName}":
@@ -81,7 +87,7 @@ if $includeBackupCopyJobs == true {
    # - Grandfathers (monthly)
    # - Fathers (weekly)
    # - Sons (daily)
-   $GFS = {
+   $gfs = {
 	"s${clientName}" => {
 		gfs_obj_label => 'daily',
 		recycle => 'yes',
@@ -119,7 +125,7 @@ if $includeBackupCopyJobs == true {
 	},
    }
 
-   $gfsKeys = keys($GFS)
+   $gfsKeys = keys($gfs)
 
 
    # Setup GFS19 Pools, Storage, and Devices...
@@ -128,7 +134,7 @@ if $includeBackupCopyJobs == true {
        clientIpOrHostname => $clientIpOrHostname,
        backupBasePath => "/mnt/backups",
        includeBackupCopyJobs => $includeBackupCopyJobs,
-       gfsHash => $GFS,
+       gfsHash => $gfs,
    }
 
 # TODO: Setup remote backups...
