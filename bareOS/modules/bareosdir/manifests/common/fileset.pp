@@ -14,7 +14,7 @@ class bareosdir::common::fileset {
         exclude => ['/var/lib/bareos', '/var/lib/bareos/storage', '/proc', '/tmp', '.journal', '.fsck'],
      } 
 
-    bareos::director::fileset{'webserver-fs':
+    bareos::director::fileset{'sshLandingBay-fs':
 	
 	
 	fstype => ['ext2', 'ext3', 'ext4', 'xfs', 'zfs', 'reiserfs', 'jfs', 'btrfs'], 
